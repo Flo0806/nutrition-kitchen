@@ -23,8 +23,8 @@ ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
 
-# Pictures live in a volume; a fresh named volume takes over this directory's owner.
-RUN mkdir -p .data/pictures && chown -R node:node .data
+# Database and pictures live in a volume; a fresh named volume takes over this directory's owner.
+RUN mkdir -p .data && chown node:node .data
 
 USER node
 

@@ -4,33 +4,11 @@ services:
     image: ghcr.io/flo0806/nutrition-kitchen:latest
     restart: unless-stopped
     env_file: .env
-    environment:
-      NUXT_DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
     ports:
       - "127.0.0.1:${APP_PORT:-3000}:3000"
+    # The SQLite database and the pictures; back up this volume.
     volumes:
-      - pictures:/app/.data/pictures
-    depends_on:
-      db:
-        condition: service_healthy
-
-  db:
-    image: mysql:8.4
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - db:/var/lib/mysql
-    healthcheck:
-      test:
-        ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
+      - data:/app/.data
 
 volumes:
-  db:
-  pictures:
+  data:
