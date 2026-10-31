@@ -1,0 +1,24 @@
+import { defineConfig, devices } from "@playwright/test";
+
+// A production build on its own port, so tests never touch a running dev server.
+const port = 3101;
+
+export default defineConfig({
+  testDir: "tests/e2e",
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: 0,
+  reporter: process.env.CI ? "github" : "list",
+  use: { baseURL: `http://localhost:${port}`, trace: "retain-on-failure" },
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "webkit", use: { ...devices["Desktop Safari"] } },
+    { name: "mobile-webkit", use: { ...devices["iPhone 15"] } },
+  ],
+  webServer: {
+    command: `pnpm build --envName e2e && PORT=${port} node .output-e2e/server/index.mjs`,
+    url: `http://localhost:${port}`,
+    reuseExistingServer: false,
+    timeout: 180_000,
+  },
+});

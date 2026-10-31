@@ -1,75 +1,50 @@
-# Nuxt Minimal Starter
+# Nutrition Kitchen
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Build a recipe from raw materials and get its nutrition declaration as it would appear on a food
+package, under the EU food information regulation (Regulation (EU) No 1169/2011, LMIV in German).
 
-## Setup
+Type "Mehl", pick it, type 500, done. The label updates while you type. Free, no account needed;
+an account only exists to save and share recipes.
 
-Make sure to install dependencies:
+Live at [nutrition.fh-softdev.de](https://nutrition.fh-softdev.de). German first, English too.
 
-```bash
-# npm
-npm install
+> [!WARNING]
+> In development. The label is no legal advice: it stays the responsibility of the food business.
 
-# pnpm
+## Built on
+
+| Package                                                                  | Role                                                                                   |
+| ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| [`@thereforejs/nutrition`](https://github.com/thereforejs/nutrition)     | calculates the declaration: per 100 g, per piece, % reference intake, rounding, report |
+| [`@thereforejs/foods`](https://github.com/thereforejs/foods)             | values of over 7,100 foods per 100 g (BLS 4.0), served by the app's server             |
+| [`@thereforejs/food-finder`](https://github.com/thereforejs/food-finder) | finds a food by what people type, in German and English                                |
+
+Plus [Nuxt](https://nuxt.com) and [Nuxt UI](https://ui.nuxt.com).
+
+## Develop
+
+Requires Node 22 or newer and pnpm.
+
+```sh
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+| Script                       | Does                                                                 |
+| ---------------------------- | -------------------------------------------------------------------- |
+| `pnpm verify`                | everything below, cheap to expensive; must exit 0 before a commit    |
+| `pnpm fmt`, `pnpm fmt:check` | format with oxfmt                                                    |
+| `pnpm lint`                  | lint with oxlint                                                     |
+| `pnpm typecheck`             | `nuxt typecheck`                                                     |
+| `pnpm test`                  | unit and property tests (Vitest, fast-check)                         |
+| `pnpm test:e2e`              | Playwright on a production build, Chromium, WebKit and mobile WebKit |
 
-Build the application for production:
+## Data
 
-```bash
-# npm
-npm run build
+Nutrient values: Max Rubner-Institut, Bundeslebensmittelschlüssel (BLS) 4.0, as an extract,
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), via `@thereforejs/foods`. The original is
+at [blsdb.de](https://www.blsdb.de).
 
-# pnpm
-pnpm build
+## License
 
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Code: [MIT](./LICENSE).

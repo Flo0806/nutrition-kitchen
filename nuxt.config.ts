@@ -1,5 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
-  devtools: { enabled: true }
-})
+  modules: ["@nuxt/ui", "nuxt-spyglass"],
+  css: ["~/assets/css/main.css"],
+  // Light only: the label is printed matter and must look the same on every screen.
+  ui: { colorMode: false },
+  compatibilityDate: "2025-07-15",
+  devtools: { enabled: true },
+  // The server runs on Node 22; Nitro's default es2019 target warns about BigInt literals in deps.
+  nitro: { esbuild: { options: { target: "node22" } } },
+  // E2E builds next to a running dev server; a shared .nuxt would break it.
+  $env: {
+    e2e: { buildDir: ".nuxt-e2e", nitro: { output: { dir: ".output-e2e" } } },
+  },
+});

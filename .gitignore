@@ -1,5 +1,7 @@
 # Nuxt dev/build outputs
 .output
+.output-e2e
+.nuxt-e2e
 .data
 .nuxt
 .nitro
@@ -23,5 +25,11 @@ logs
 .env.*
 !.env.example
 
-# Agent handoff, never in the public repo
-HANDOFF.md
+# Agent notes (plan, handoff, todo), never in the public repo
+.agent
+.todo
+.remember
+
+# Test output
+test-results
+playwright-report

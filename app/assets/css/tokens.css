@@ -1,0 +1,50 @@
+/* Design tokens. Nuxt UI reads the color scales through app.config.ts. */
+@theme static {
+  --font-sans: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
+  --font-label: "Archivo", "Arial Narrow", ui-sans-serif, sans-serif;
+
+  --color-basil-50: #f0f7f2;
+  --color-basil-100: #dbede1;
+  --color-basil-200: #b9dbc5;
+  --color-basil-300: #8cc2a1;
+  --color-basil-400: #5ca37a;
+  --color-basil-500: #3d8a5e;
+  --color-basil-600: #2f7a4f;
+  --color-basil-700: #275f40;
+  --color-basil-800: #224c35;
+  --color-basil-900: #1d3f2d;
+  --color-basil-950: #0f2318;
+
+  --color-yolk-50: #fffbea;
+  --color-yolk-100: #fff2c4;
+  --color-yolk-200: #ffe385;
+  --color-yolk-300: #ffd246;
+  --color-yolk-400: #ffc929;
+  --color-yolk-500: #f2b705;
+  --color-yolk-600: #cc8e02;
+  --color-yolk-700: #a26506;
+  --color-yolk-800: #864f0c;
+  --color-yolk-900: #72410f;
+  --color-yolk-950: #422104;
+
+  --color-sage-50: #f6f7f4;
+  --color-sage-100: #eceee8;
+  --color-sage-200: #d9ddd3;
+  --color-sage-300: #bcc3b6;
+  --color-sage-400: #97a091;
+  --color-sage-500: #78826f;
+  --color-sage-600: #5f6858;
+  --color-sage-700: #4c5347;
+  --color-sage-800: #3c4239;
+  --color-sage-900: #2a302a;
+  --color-sage-950: #151a16;
+}
+
+:root {
+  --page: var(--color-sage-50);
+  --ink: #1e2b24;
+  --label-paper: #ffffff;
+  --label-rule: #000000;
+  /* Nuxt UI uses shade 500 by default; 600 keeps text on flour above WCAG AA. */
+  --ui-primary: var(--ui-color-primary-600);
+}

@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+@import "./tokens.css";
+
+body {
+  background-color: var(--page);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
