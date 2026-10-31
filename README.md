@@ -30,14 +30,14 @@ pnpm install
 pnpm dev
 ```
 
-| Script                       | Does                                                                 |
-| ---------------------------- | -------------------------------------------------------------------- |
-| `pnpm verify`                | everything below, cheap to expensive; must exit 0 before a commit    |
-| `pnpm fmt`, `pnpm fmt:check` | format with oxfmt                                                    |
-| `pnpm lint`                  | lint with oxlint                                                     |
-| `pnpm typecheck`             | `nuxt typecheck`                                                     |
-| `pnpm test`                  | unit and property tests (Vitest, fast-check)                         |
-| `pnpm test:e2e`              | Playwright on a production build, Chromium, WebKit and mobile WebKit |
+| Script                       | Does                                                                                         |
+| ---------------------------- | -------------------------------------------------------------------------------------------- |
+| `pnpm verify`                | everything below, cheap to expensive; must exit 0 before a commit                            |
+| `pnpm fmt`, `pnpm fmt:check` | format with oxfmt                                                                            |
+| `pnpm lint`                  | lint with oxlint                                                                             |
+| `pnpm typecheck`             | `nuxt typecheck`                                                                             |
+| `pnpm test`                  | unit and property tests (Vitest, fast-check)                                                 |
+| `pnpm test:e2e`              | Playwright on a production build: Chromium, WebKit, mobile WebKit, and api and bundle checks |
 
 ## Data
 

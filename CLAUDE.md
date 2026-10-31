@@ -24,7 +24,8 @@ Drizzle, Docker image on ghcr.
 - Comments: few, short, the why only. Never the what or the how.
 - No em dashes or en dashes anywhere. Use a plain hyphen.
 - `pnpm verify` bundles fmt, lint, typecheck, unit/property tests and E2E (Chromium, WebKit, mobile
-  WebKit, against a production build on port 3101). It is the definition of done.
+  WebKit, plus a browserless `node` project for api and bundle checks, against a production build
+  on port 3101). It is the definition of done.
 - Zod at every boundary (API, forms, localStorage, env). Every recipe access checks the owner.
 - The libraries calculate, the app never interprets: display `text[locale]`, never format numbers
   yourself; `null` is unknown and goes to the report; errors refuse the whole result.
