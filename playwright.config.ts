@@ -9,7 +9,8 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: 0,
   reporter: process.env.CI ? "github" : "list",
-  use: { baseURL: `http://localhost:${port}`, trace: "retain-on-failure" },
+  // German browser by default: the first audience is German.
+  use: { baseURL: `http://localhost:${port}`, locale: "de-DE", trace: "retain-on-failure" },
   projects: [
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
     { name: "webkit", use: { ...devices["Desktop Safari"] } },

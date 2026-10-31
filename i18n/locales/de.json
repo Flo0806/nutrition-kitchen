@@ -1,0 +1,27 @@
+{
+  "app": {
+    "name": "Nutrition Kitchen",
+    "tagline": "Rezept eingeben, Nährwerte ablesen."
+  },
+  "language": {
+    "label": "Sprache"
+  },
+  "footer": {
+    "attribution": "Nährwerte: Max Rubner-Institut, {source}, als Auszug, {license}",
+    "sources": "Alle Quellen",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "code": "Quellcode"
+  },
+  "sources": {
+    "title": "Quellen",
+    "intro": "Die Nährwerte kommen aus diesen offenen Datenbanken. Jeder Wert nennt seine Quelle.",
+    "license": "Lizenz"
+  },
+  "imprint": {
+    "title": "Impressum"
+  },
+  "privacy": {
+    "title": "Datenschutz"
+  }
+}

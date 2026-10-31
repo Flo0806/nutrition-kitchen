@@ -1,0 +1,27 @@
+{
+  "app": {
+    "name": "Nutrition Kitchen",
+    "tagline": "Enter a recipe, read its nutrition facts."
+  },
+  "language": {
+    "label": "Language"
+  },
+  "footer": {
+    "attribution": "Nutrient values: Max Rubner-Institut, {source}, as an extract, {license}",
+    "sources": "All sources",
+    "imprint": "Legal notice",
+    "privacy": "Privacy",
+    "code": "Source code"
+  },
+  "sources": {
+    "title": "Sources",
+    "intro": "The nutrient values come from these open databases. Every value names its source.",
+    "license": "License"
+  },
+  "imprint": {
+    "title": "Legal notice"
+  },
+  "privacy": {
+    "title": "Privacy"
+  }
+}
