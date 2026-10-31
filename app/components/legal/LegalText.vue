@@ -21,10 +21,7 @@
   line-height: 1.6;
 }
 
-/* Placeholders stay loud until the real data is in. */
-.legal-text :slotted(mark) {
-  background: var(--color-yolk-200);
-  color: inherit;
-  padding: 0 0.2em;
+.legal-text :slotted(a) {
+  text-decoration: underline;
 }
 </style>

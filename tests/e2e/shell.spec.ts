@@ -33,16 +33,16 @@ test("footer texts carry no stray whitespace", async ({ page }) => {
 test("switching the language keeps the path and survives a reload", async ({ page }) => {
   await page.goto("/privacy");
   await expect(page.locator("html")).toHaveAttribute("lang", "de-DE");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Datenschutz");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Datenschutzerklärung");
 
   await page.getByRole("button", { name: "English" }).click();
   await expect(page).toHaveURL(/\/privacy$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "en-GB");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Privacy");
-  await expect(page).toHaveTitle("Privacy | Nutrition Kitchen");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Privacy policy");
+  await expect(page).toHaveTitle("Privacy policy | Nutrition Kitchen");
 
   await page.reload();
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Privacy");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Privacy policy");
   await expect(page.getByRole("button", { name: "English" })).toHaveAttribute(
     "aria-pressed",
     "true",
@@ -74,4 +74,16 @@ test("no page loads anything from another host", async ({ page, baseURL }) => {
   });
   for (const path of pages) await page.goto(path, { waitUntil: "networkidle" });
   expect(foreign).toEqual([]);
+});
+
+test("legal pages name the operator and hold no placeholders", async ({ page }) => {
+  for (const language of ["Deutsch", "English"]) {
+    for (const path of ["/imprint", "/privacy"]) {
+      await page.goto(path);
+      await page.getByRole("button", { name: language }).click();
+      const article = page.locator("article");
+      await expect(article).toContainText("Weickenricht 25");
+      await expect(article).not.toContainText("[");
+    }
+  }
 });
