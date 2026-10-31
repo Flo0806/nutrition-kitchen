@@ -63,10 +63,11 @@ test("grams take a decimal comma and refuse what is no number", async ({ page })
 
 test("steppers add and take ten grams", async ({ page }) => {
   await addDirect(page, "Butter", "100");
-  await page.getByRole("button", { name: "10 g mehr" }).click();
+  const row = page.locator("li.ingredient-row");
+  await row.getByRole("button", { name: "10 g mehr" }).click();
   await expect(total(page)).toHaveText("Gesamt110 g");
-  await page.getByRole("button", { name: "10 g weniger" }).click();
-  await page.getByRole("button", { name: "10 g weniger" }).click();
+  await row.getByRole("button", { name: "10 g weniger" }).click();
+  await row.getByRole("button", { name: "10 g weniger" }).click();
   await expect(total(page)).toHaveText("Gesamt90 g");
 });
 

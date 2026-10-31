@@ -17,7 +17,7 @@ const license = { name: "CC BY 4.0", url: "https://creativecommons.org/licenses/
           <ULink :to="license.url" target="_blank" class="underline">{{ license.name }}</ULink>
         </template>
       </i18n-t>
-      <nav class="flex flex-wrap gap-x-5 gap-y-2">
+      <nav class="flex flex-wrap gap-x-5 gap-y-2 print:hidden">
         <ULink to="/sources">{{ $t("footer.sources") }}</ULink>
         <ULink to="/imprint">{{ $t("footer.imprint") }}</ULink>
         <ULink to="/privacy">{{ $t("footer.privacy") }}</ULink>

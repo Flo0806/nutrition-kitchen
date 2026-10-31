@@ -3,3 +3,4 @@ allowBuilds:
   vue-demi: true
 minimumReleaseAgeExclude:
   - "@thereforejs/food-finder@0.0.1"
+  - "@thereforejs/nutrition@0.0.1"

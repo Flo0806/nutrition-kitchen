@@ -48,5 +48,62 @@
       "more": "{step} g mehr",
       "invalid": "Bitte eine Zahl in Gramm eingeben, zum Beispiel 12,5."
     }
+  },
+  "label": {
+    "flip": "Etikett auf {language}",
+    "languages": {
+      "de": "Deutsch",
+      "en": "Englisch"
+    },
+    "empty": "Hier erscheint das Etikett, sobald eine Zutat eine Menge hat.",
+    "loading": "Die Werte werden geladen.",
+    "refused": "Mit diesen Angaben lässt sich nichts berechnen:",
+    "withoutAmount": "Ohne Menge nicht mitgerechnet: {names}.",
+    "row": "Zeile {number}: {text}",
+    "print": "Drucken",
+    "copy": "Als Text kopieren",
+    "copied": "Das Etikett ist in der Zwischenablage.",
+    "options": {
+      "title": "Angaben auf dem Etikett",
+      "pieceWeight": "Gewicht pro Stück",
+      "voluntary": "Freiwillige Angaben",
+      "referenceIntake": "Prozent der Referenzmenge zeigen"
+    },
+    "gaps": {
+      "missing": "Es fehlen Werte für {nutrients}.",
+      "belowDetection": "Unter der Nachweisgrenze: {nutrients}.",
+      "traces": "Nur in Spuren: {nutrients}.",
+      "energy": "Die Energie ist ohne sie gerechnet."
+    },
+    "nutrients": {
+      "alcohol": "Alkohol",
+      "organicAcids": "organische Säuren",
+      "erythritol": "Erythrit",
+      "salatrims": "Salatrims"
+    },
+    "diagnostics": {
+      "input": {
+        "invalid": "Die Eingabe ist ungültig."
+      },
+      "options": {
+        "invalid": "Eine Einstellung ist ungültig."
+      },
+      "pieceWeight": {
+        "zero": "Ein Stück kann nicht 0 g wiegen."
+      },
+      "weight": {
+        "zero": "Das Rezept wiegt 0 g. Geben Sie mindestens einer Zutat eine Menge."
+      },
+      "value": {
+        "missing": "Ein Wert fehlt.",
+        "above100": "In 100 g kann nicht mehr als 100 g davon stecken.",
+        "partExceedsWhole": "Mehr {part} als {whole}.",
+        "unknownKey": "Unbekannter Nährstoff „{key}“.",
+        "invalid": "„{value}“ ist kein gültiger Wert."
+      },
+      "salt": {
+        "sodiumMismatch": "Salz ({salt} g) und Natrium ({sodium} g) passen nicht zusammen: Salz ist Natrium mal 2,5."
+      }
+    }
   }
 }

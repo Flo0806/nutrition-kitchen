@@ -5,6 +5,22 @@ const props = defineProps<{ row: RecipeRow; index: number }>();
 const { t, locale } = useI18n();
 const { foods, failed, load } = useFoods();
 const { remove, setAmount, move } = useRecipe();
+const declared = useDeclaration();
+const { describeGap, describeProblem } = useLabelText();
+
+// What the label says about this row: refusals first, they stop the whole label.
+const problems = computed(() =>
+  declared.value.state === "refused"
+    ? declared.value.problems
+        .filter((problem) => problem.rowId === props.row.id)
+        .map((problem) => describeProblem(problem.diagnostic))
+    : [],
+);
+const gap = computed(() => {
+  if (declared.value.state !== "declared") return "";
+  const found = declared.value.gaps.find((candidate) => candidate.rowId === props.row.id);
+  return found ? describeGap(food.value, found.nutrients) : "";
+});
 
 const food = computed(() => foods.value[props.row.code]);
 const name = computed(() => food.value?.name[locale.value === "en" ? "en" : "de"] ?? "");
@@ -60,6 +76,10 @@ async function moveBy(delta: number) {
       :aria-label="t('builder.row.remove', { name })"
       @click="remove(row.id)"
     />
+    <div v-if="problems.length > 0 || gap" class="text-sm [grid-area:note]" data-testid="row-note">
+      <p v-for="problem in problems" :key="problem" class="text-error">{{ problem }}</p>
+      <p v-if="gap" class="text-muted">{{ gap }}</p>
+    </div>
   </li>
 </template>
 
@@ -68,13 +88,16 @@ async function moveBy(delta: number) {
   grid-template-columns: auto minmax(0, 1fr) auto;
   grid-template-areas:
     "handle name remove"
-    ". amount amount";
+    ". amount amount"
+    ". note note";
 }
 
 @media (min-width: 40rem) {
   .ingredient-row {
     grid-template-columns: auto minmax(0, 1fr) auto auto;
-    grid-template-areas: "handle name amount remove";
+    grid-template-areas:
+      "handle name amount remove"
+      ". note note .";
   }
 }
 </style>

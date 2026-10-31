@@ -48,5 +48,62 @@
       "more": "{step} g more",
       "invalid": "Please enter a number of grams, for example 12.5."
     }
+  },
+  "label": {
+    "flip": "Label in {language}",
+    "languages": {
+      "de": "German",
+      "en": "English"
+    },
+    "empty": "The label appears here as soon as an ingredient has an amount.",
+    "loading": "Loading the values.",
+    "refused": "Nothing can be calculated from these entries:",
+    "withoutAmount": "Not counted without an amount: {names}.",
+    "row": "Row {number}: {text}",
+    "print": "Print",
+    "copy": "Copy as text",
+    "copied": "The label is on the clipboard.",
+    "options": {
+      "title": "On the label",
+      "pieceWeight": "Weight per piece",
+      "voluntary": "Voluntary nutrients",
+      "referenceIntake": "Show percent of reference intake"
+    },
+    "gaps": {
+      "missing": "Values missing for {nutrients}.",
+      "belowDetection": "Below the limit of detection: {nutrients}.",
+      "traces": "Traces only: {nutrients}.",
+      "energy": "The energy is calculated without them."
+    },
+    "nutrients": {
+      "alcohol": "alcohol",
+      "organicAcids": "organic acids",
+      "erythritol": "erythritol",
+      "salatrims": "salatrims"
+    },
+    "diagnostics": {
+      "input": {
+        "invalid": "The input is invalid."
+      },
+      "options": {
+        "invalid": "A setting is invalid."
+      },
+      "pieceWeight": {
+        "zero": "A piece cannot weigh 0 g."
+      },
+      "weight": {
+        "zero": "The recipe weighs 0 g. Give at least one ingredient an amount."
+      },
+      "value": {
+        "missing": "A value is missing.",
+        "above100": "100 g cannot hold more than 100 g of it.",
+        "partExceedsWhole": "More {part} than {whole}.",
+        "unknownKey": "Unknown nutrient “{key}”.",
+        "invalid": "“{value}” is no valid value."
+      },
+      "salt": {
+        "sodiumMismatch": "Salt ({salt} g) and sodium ({sodium} g) do not match: salt is sodium times 2.5."
+      }
+    }
   }
 }

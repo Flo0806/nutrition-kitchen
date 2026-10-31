@@ -1,13 +1,15 @@
-import { parseDraft, serializeDraft } from "~/utils/draft";
+import type { LabelOptions } from "~/utils/declaration";
+import { defaultLabelOptions, parseDraft, serializeDraft } from "~/utils/draft";
 
 export type RecipeRow = { id: number; code: string; amount: number | null };
 
 const storageKey = "nutrition-kitchen:draft";
 let nextId = 1;
 
-/** The recipe being edited: one row per ingredient, in the order of the list. */
+/** The recipe being edited: one row per ingredient in the order of the list, and its label options. */
 export function useRecipe() {
   const rows = useState<RecipeRow[]>("recipe-rows", () => []);
+  const options = useState<LabelOptions>("recipe-options", () => ({ ...defaultLabelOptions }));
   const { load } = useFoods();
 
   function add(code: string, amount: number | null = null): RecipeRow {
@@ -32,7 +34,7 @@ export function useRecipe() {
     if (row) rows.value.splice(to, 0, row);
   }
 
-  return { rows, add, remove, setAmount, move };
+  return { rows, options, add, remove, setAmount, move };
 }
 
 /**
@@ -40,7 +42,7 @@ export function useRecipe() {
  * component only.
  */
 export function useRecipeDraft() {
-  const { rows, add } = useRecipe();
+  const { rows, options, add } = useRecipe();
   const toast = useToast();
   const { t } = useI18n();
 
@@ -50,8 +52,17 @@ export function useRecipeDraft() {
       localStorage.removeItem(storageKey);
       toast.add({ title: t("builder.draftBroken"), color: "warning" });
     } else if (draft && rows.value.length === 0) {
-      for (const row of draft) add(row.code, row.amount);
+      for (const row of draft.rows) add(row.code, row.amount);
+      options.value = draft.options;
     }
-    watch(rows, (value) => localStorage.setItem(storageKey, serializeDraft(value)), { deep: true });
+    watch(
+      [rows, options],
+      () =>
+        localStorage.setItem(
+          storageKey,
+          serializeDraft({ rows: rows.value, options: options.value }),
+        ),
+      { deep: true },
+    );
   });
 }

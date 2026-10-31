@@ -25,6 +25,7 @@
     "@nuxtjs/i18n": "^10.6.0",
     "@thereforejs/food-finder": ">=0.0.1 <0.1.0",
     "@thereforejs/foods": ">=0.0.1 <0.1.0",
+    "@thereforejs/nutrition": ">=0.0.1 <0.1.0",
     "@vueuse/integrations": "^14.4.0",
     "nuxt": "^4.6.3",
     "sortablejs": "^1.15.7",
