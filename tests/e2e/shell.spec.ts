@@ -1,11 +1,12 @@
 import { expect, test } from "@playwright/test";
+import { openReady, waitForHydration } from "./ready";
 
 const pages = ["/", "/sources", "/imprint", "/privacy"];
 
 test.describe("attribution", () => {
   for (const path of pages) {
     test(`${path} names the BLS in German and English`, async ({ page }) => {
-      await page.goto(path);
+      await openReady(page, path);
       const attribution = page.getByTestId("attribution");
       await expect(attribution).toHaveText(
         "Nährwerte: Max Rubner-Institut, Bundeslebensmittelschlüssel (BLS), Version 4.0, als Auszug, CC BY 4.0",
@@ -31,7 +32,7 @@ test("footer texts carry no stray whitespace", async ({ page }) => {
 });
 
 test("switching the language keeps the path and survives a reload", async ({ page }) => {
-  await page.goto("/privacy");
+  await openReady(page, "/privacy");
   await expect(page.locator("html")).toHaveAttribute("lang", "de-DE");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Datenschutzerklärung");
 
@@ -42,6 +43,7 @@ test("switching the language keeps the path and survives a reload", async ({ pag
   await expect(page).toHaveTitle("Privacy policy | Nutrition Kitchen");
 
   await page.reload();
+  await waitForHydration(page);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Privacy policy");
   await expect(page.getByRole("button", { name: "English" })).toHaveAttribute(
     "aria-pressed",
@@ -79,7 +81,7 @@ test("no page loads anything from another host", async ({ page, baseURL }) => {
 test("legal pages name the operator and hold no placeholders", async ({ page }) => {
   for (const language of ["Deutsch", "English"]) {
     for (const path of ["/imprint", "/privacy"]) {
-      await page.goto(path);
+      await openReady(page, path);
       await page.getByRole("button", { name: language }).click();
       const article = page.locator("article");
       await expect(article).toContainText("Weickenricht 25");

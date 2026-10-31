@@ -23,5 +23,30 @@
   },
   "privacy": {
     "title": "Privacy policy"
+  },
+  "builder": {
+    "search": {
+      "label": "Find an ingredient",
+      "placeholder": "for example flour, butter, sugar",
+      "noHits": "Nothing found for “{query}”."
+    },
+    "rows": {
+      "label": "Ingredients",
+      "empty": "No ingredients yet. Type above, for example “flour”.",
+      "total": "Total"
+    },
+    "row": {
+      "amount": "Amount of {name} in grams",
+      "move": "Move {name}",
+      "remove": "Remove {name}",
+      "loadFailed": "The values could not be loaded.",
+      "retry": "Try again"
+    },
+    "draftBroken": "The saved draft was damaged and has been discarded.",
+    "amount": {
+      "less": "{step} g less",
+      "more": "{step} g more",
+      "invalid": "Please enter a number of grams, for example 12.5."
+    }
   }
 }

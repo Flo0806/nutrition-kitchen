@@ -1,7 +1,8 @@
 import * as foods from "@thereforejs/foods";
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { findFood, foodCode } from "../../server/utils/foods";
+import { findFood } from "../../server/utils/foods";
+import { foodCode } from "../../shared/utils/foodCode";
 
 const codes = Object.keys(foods);
 

@@ -23,5 +23,30 @@
   },
   "privacy": {
     "title": "Datenschutzerklärung"
+  },
+  "builder": {
+    "search": {
+      "label": "Zutat suchen",
+      "placeholder": "zum Beispiel Mehl, Butter, Zucker",
+      "noHits": "Nichts gefunden für „{query}“."
+    },
+    "rows": {
+      "label": "Zutaten",
+      "empty": "Noch keine Zutaten. Tippen Sie oben zum Beispiel „Mehl“.",
+      "total": "Gesamt"
+    },
+    "row": {
+      "amount": "Menge von {name} in Gramm",
+      "move": "{name} verschieben",
+      "remove": "{name} entfernen",
+      "loadFailed": "Die Werte konnten nicht geladen werden.",
+      "retry": "Erneut versuchen"
+    },
+    "draftBroken": "Der gespeicherte Entwurf war beschädigt und wurde verworfen.",
+    "amount": {
+      "less": "{step} g weniger",
+      "more": "{step} g mehr",
+      "invalid": "Bitte eine Zahl in Gramm eingeben, zum Beispiel 12,5."
+    }
   }
 }

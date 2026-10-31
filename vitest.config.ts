@@ -1,9 +1,15 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
+  resolve: {
+    // The aliases Nuxt sets, so app and shared modules import the same way under test.
+    alias: {
+      "~": fileURLToPath(new URL("./app", import.meta.url)),
+      "#shared": fileURLToPath(new URL("./shared", import.meta.url)),
+    },
+  },
   test: {
     include: ["tests/unit/**/*.test.ts"],
-    // Setup ships no logic yet; the first real tests arrive with the foods api.
-    passWithNoTests: true,
   },
 });
