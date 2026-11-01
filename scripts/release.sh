@@ -31,8 +31,12 @@ if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
   exit 1
 fi
 
-echo "Verifying before release"
-pnpm verify
+# The quick gates only: the full E2E suite runs in CI on every push to main, on a machine of its own.
+echo "Checking before release"
+pnpm fmt:check
+pnpm lint
+pnpm typecheck
+pnpm test
 
 echo "Releasing nutrition-kitchen $TAG"
 
