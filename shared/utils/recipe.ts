@@ -8,6 +8,9 @@ import { materialNutrients, type MaterialNutrient, type Source } from "./source"
 /** Grams; one tonne is far beyond any kitchen and keeps typos out. */
 export const maxAmount = 1_000_000;
 
+/** Per user: a book that is used, and a bound on what one account can store. */
+export const maxRecipes = 75;
+
 export const defaultRecipeOptions: RecipeOptions = {
   pieceWeight: null,
   voluntary: [],

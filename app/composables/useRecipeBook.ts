@@ -1,4 +1,4 @@
-import { inputRow, type RecipeInput } from "#shared/utils/recipe";
+import { inputRow, maxRecipes, type RecipeInput } from "#shared/utils/recipe";
 import type { SavedRecipe } from "~/utils/draft";
 
 export type BookEntry = {
@@ -73,6 +73,7 @@ export function useRequestError() {
   return (error: unknown) => {
     const status = (error as { statusCode?: number }).statusCode;
     if (status === 401) return t("errors.signedOut");
+    if (status === 409) return t("errors.bookFull", { max: maxRecipes });
     if (status === 413) return t("errors.pictureTooLarge");
     if (status === 415) return t("errors.pictureFormat");
     if (status === 429) return t("errors.tooMany");

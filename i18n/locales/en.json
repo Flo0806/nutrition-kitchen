@@ -192,10 +192,11 @@
   },
   "errors": {
     "signedOut": "You are no longer signed in. Please sign in again.",
-    "pictureTooLarge": "The photo is larger than 8 MB.",
+    "pictureTooLarge": "The photo is too large: 8 MB and 100 megapixels at most.",
     "pictureFormat": "Only photos as JPEG, PNG or WebP.",
     "tooMany": "Too many photos in a short time. Please try again later.",
-    "general": "That did not work. Please try again."
+    "general": "That did not work. Please try again.",
+    "bookFull": "Your recipe book is full: {max} recipes at most. Delete one to make room."
   },
   "share": {
     "title": "Share “{title}”",

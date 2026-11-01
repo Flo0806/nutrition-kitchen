@@ -220,3 +220,62 @@ test("a photo upload without a declared length is refused before it is read", as
   } as RequestInit);
   expect(response.status).toBe(411);
 });
+
+test("a book holds 75 recipes; the 76th is refused with a reason", async ({ page }) => {
+  await signInAs(page);
+  const data = {
+    title: "Eins von vielen",
+    instructions: "",
+    rows: rolls.rows,
+    options: rolls.options,
+  };
+  for (let i = 0; i < 75; i++) {
+    expect((await page.request.post("/api/recipes", { data })).status()).toBe(201);
+  }
+  expect((await page.request.post("/api/recipes", { data })).status()).toBe(409);
+
+  await seedDraft(page, rolls);
+  await openReady(page, "/");
+  await bar(page).getByRole("button", { name: "Speichern" }).click();
+  const dialog = page.getByRole("dialog");
+  await dialog.getByRole("textbox", { name: /^Titel/ }).fill("Zu viel");
+  await dialog.getByRole("button", { name: "Speichern" }).click();
+  await expect(dialog.getByRole("alert")).toHaveText(
+    "Ihr Rezeptbuch ist voll: höchstens 75 Rezepte. Löschen Sie eins, um Platz zu schaffen.",
+  );
+});
+
+test("a photo of more than 100 megapixels is refused", async ({ page }) => {
+  await signInAs(page);
+  const created = await page.request.post("/api/recipes", {
+    data: { title: "Bombe", instructions: "", rows: rolls.rows, options: rolls.options },
+  });
+  const { id } = (await created.json()) as { id: number };
+  const bomb = await sharp({
+    create: { width: 10_001, height: 10_000, channels: 3, background: "#fff" },
+  })
+    .png()
+    .toBuffer();
+  const response = await page.request.put(`/api/recipes/${id}/image`, {
+    multipart: { picture: { name: "p.png", mimeType: "image/png", buffer: bomb } },
+  });
+  expect(response.status()).toBe(413);
+});
+
+test("changes from another site, sibling subdomains included, are refused", async ({ page }) => {
+  await signInAs(page);
+  const data = { title: "Fremd", instructions: "", rows: rolls.rows, options: rolls.options };
+  for (const site of ["cross-site", "same-site"]) {
+    const response = await page.request.post("/api/recipes", {
+      data,
+      headers: { "sec-fetch-site": site },
+    });
+    expect(response.status(), site).toBe(403);
+  }
+  const own = await page.request.post("/api/recipes", {
+    data,
+    headers: { "sec-fetch-site": "same-origin" },
+  });
+  expect(own.status()).toBe(201);
+  expect(await (await page.request.get("/api/recipes")).json()).toHaveLength(1);
+});

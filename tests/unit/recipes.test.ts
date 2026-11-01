@@ -17,7 +17,7 @@ import {
 } from "../../server/db/recipes";
 import { recipeIngredients } from "../../server/db/schema";
 import { upsertUser } from "../../server/db/users";
-import { recipeInput, type RecipeInput } from "../../shared/utils/recipe";
+import { maxRecipes, recipeInput, type RecipeInput } from "../../shared/utils/recipe";
 
 let dir: string;
 let db: Db;
@@ -62,9 +62,16 @@ const rolls: RecipeInput = {
   options: { pieceWeight: 60, voluntary: ["fibre"], referenceIntake: true, bakingLoss: 180 },
 };
 
+/** A recipe that must fit: the book is far from full in these tests. */
+function create(...args: Parameters<typeof createRecipe>) {
+  const id = createRecipe(...args);
+  if (id === "full") throw new Error("book full");
+  return id;
+}
+
 describe("recipes", () => {
   it("reads back what was saved, rows in order", () => {
-    const id = createRecipe(db, flo, rolls);
+    const id = create(db, flo, rolls);
     expect(getRecipe(db, flo, id)).toMatchObject({ id, image: null, ...rolls });
   });
 
@@ -90,7 +97,7 @@ describe("recipes", () => {
     fc.assert(
       fc.property(input, (value) => {
         const parsed = recipeInput.parse(value);
-        const id = createRecipe(db, flo, parsed);
+        const id = create(db, flo, parsed);
         expect(getRecipe(db, flo, id)).toMatchObject(parsed);
       }),
       { numRuns: 50 },
@@ -98,7 +105,7 @@ describe("recipes", () => {
   });
 
   it("keeps each user's recipes to themselves", () => {
-    const id = createRecipe(db, flo, rolls);
+    const id = create(db, flo, rolls);
     expect(getRecipe(db, other, id)).toBeUndefined();
     expect(listRecipes(db, other)).toEqual([]);
     expect(updateRecipe(db, other, id, { ...rolls, title: "Taken" })).toBe(false);
@@ -108,7 +115,7 @@ describe("recipes", () => {
   });
 
   it("replaces the rows on an update", () => {
-    const id = createRecipe(db, flo, rolls);
+    const id = create(db, flo, rolls);
     const fewer = { ...rolls, title: "Fladen", rows: [{ code: "C214200", amount: 500 }] };
     expect(updateRecipe(db, flo, id, fewer)).toBe(true);
     expect(getRecipe(db, flo, id)).toMatchObject(fewer);
@@ -118,9 +125,9 @@ describe("recipes", () => {
     vi.useFakeTimers({ toFake: ["Date"] });
     try {
       vi.setSystemTime(new Date("2026-11-01T10:00:00Z"));
-      const first = createRecipe(db, flo, rolls);
+      const first = create(db, flo, rolls);
       vi.setSystemTime(new Date("2026-11-01T10:01:00Z"));
-      const second = createRecipe(db, flo, { ...rolls, title: "Zweites" });
+      const second = create(db, flo, { ...rolls, title: "Zweites" });
       expect(listRecipes(db, flo).map((recipe) => recipe.id)).toEqual([second, first]);
       vi.setSystemTime(new Date("2026-11-01T10:02:00Z"));
       updateRecipe(db, flo, first, { ...rolls, title: "Wieder vorn" });
@@ -131,21 +138,21 @@ describe("recipes", () => {
   });
 
   it("deletes a recipe with its rows and tells which image to remove", () => {
-    const id = createRecipe(db, flo, rolls);
+    const id = create(db, flo, rolls);
     setRecipeImage(db, flo, id, "abc.webp");
     expect(deleteRecipe(db, flo, id)).toEqual({ image: "abc.webp" });
     expect(db.select().from(recipeIngredients).all()).toEqual([]);
   });
 
   it("tells which image a new one replaces", () => {
-    const id = createRecipe(db, flo, rolls);
+    const id = create(db, flo, rolls);
     expect(setRecipeImage(db, flo, id, "one.webp")).toEqual({ previous: null });
     expect(setRecipeImage(db, flo, id, "two.webp")).toEqual({ previous: "one.webp" });
     expect(getRecipe(db, flo, id)?.image).toBe("two.webp");
   });
 
   it("shares a recipe under one slug until it is private again", () => {
-    const id = createRecipe(db, flo, rolls);
+    const id = create(db, flo, rolls);
     expect(getRecipe(db, flo, id)?.shareSlug).toBeNull();
     expect(shareRecipe(db, flo, id, "AAAAAAAAAAAA")).toBe("AAAAAAAAAAAA");
     // Sharing again keeps the link people already have.
@@ -160,7 +167,7 @@ describe("recipes", () => {
   });
 
   it("lets only the owner share or end a share", () => {
-    const id = createRecipe(db, flo, rolls);
+    const id = create(db, flo, rolls);
     expect(shareRecipe(db, other, id, "AAAAAAAAAAAA")).toBe(false);
     expect(getSharedRecipe(db, "AAAAAAAAAAAA")).toBeUndefined();
     shareRecipe(db, flo, id, "AAAAAAAAAAAA");
@@ -169,9 +176,20 @@ describe("recipes", () => {
   });
 
   it("keeps a recipe and its link when the content changes", () => {
-    const id = createRecipe(db, flo, rolls);
+    const id = create(db, flo, rolls);
     shareRecipe(db, flo, id, "AAAAAAAAAAAA");
     updateRecipe(db, flo, id, { ...rolls, title: "Neu" });
     expect(getSharedRecipe(db, "AAAAAAAAAAAA")?.title).toBe("Neu");
+  });
+
+  it("keeps a book to 75 recipes, copies included", () => {
+    for (let i = 0; i < maxRecipes; i++)
+      expect(createRecipe(db, flo, rolls)).toEqual(expect.any(Number));
+    expect(createRecipe(db, flo, rolls)).toBe("full");
+    expect(listRecipes(db, flo)).toHaveLength(maxRecipes);
+    // Someone else's book is not affected, and a deleted recipe makes room.
+    expect(createRecipe(db, other, rolls)).toEqual(expect.any(Number));
+    deleteRecipe(db, flo, listRecipes(db, flo)[0]!.id);
+    expect(createRecipe(db, flo, rolls)).toEqual(expect.any(Number));
   });
 });

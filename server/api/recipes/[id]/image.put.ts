@@ -24,6 +24,9 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 413, statusMessage: "Picture too large" });
 
   const picture = await toPicture(new Uint8Array(await file.arrayBuffer()));
+  if (picture === "tooManyPixels") {
+    throw createError({ statusCode: 413, statusMessage: "Picture has too many pixels" });
+  }
   if (picture === "unsupported") {
     throw createError({ statusCode: 415, statusMessage: "Only JPEG, PNG and WebP pictures" });
   }

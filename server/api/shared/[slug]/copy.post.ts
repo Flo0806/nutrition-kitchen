@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
   if (recipe.image) checkPictureRate(user.id);
 
   const id = createRecipe(useDb(), user.id, recipe);
+  if (id === "full") throw bookFull();
   // A file of its own, so the copy keeps its photo when the original goes.
   const picture = recipe.image && (await usePictures().getItemRaw<Buffer>(recipe.image));
   if (picture) {

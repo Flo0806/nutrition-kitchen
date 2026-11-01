@@ -1,5 +1,5 @@
-import { and, asc, desc, eq, inArray, sql } from "drizzle-orm";
-import type { RecipeInput } from "../../shared/utils/recipe";
+import { and, asc, count, desc, eq, inArray, sql } from "drizzle-orm";
+import { maxRecipes, type RecipeInput } from "../../shared/utils/recipe";
 import type { Db } from "./open";
 import { recipeIngredients, recipes } from "./schema";
 
@@ -41,8 +41,11 @@ function insertRows(db: Pick<Db, "insert">, recipeId: number, rows: Row[]) {
     .run();
 }
 
-export function createRecipe(db: Db, userId: number, input: RecipeInput): number {
+/** The new recipe's id, `"full"` when the user's book already holds `maxRecipes`. */
+export function createRecipe(db: Db, userId: number, input: RecipeInput): number | "full" {
   return db.transaction((tx) => {
+    const held = tx.select({ n: count() }).from(recipes).where(eq(recipes.userId, userId)).get();
+    if ((held?.n ?? 0) >= maxRecipes) return "full";
     const { id } = tx
       .insert(recipes)
       // One clock for created and updated, so the order of the book follows what people did.

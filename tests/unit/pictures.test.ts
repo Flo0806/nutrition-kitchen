@@ -39,4 +39,20 @@ describe("toPicture", () => {
     expect(await toPicture(new TextEncoder().encode("MZ this is no picture"))).toBe("unsupported");
     expect(await toPicture(new Uint8Array())).toBe("unsupported");
   });
+
+  it("refuses more than 100 megapixels before decoding them", async () => {
+    // 10001 x 10000 PNG of one colour: small file, too many pixels.
+    const bomb = await sharp({
+      create: { width: 10_001, height: 10_000, channels: 3, background: "#fff" },
+    })
+      .png()
+      .toBuffer();
+    expect(await toPicture(bomb)).toBe("tooManyPixels");
+    const edge = await sharp({
+      create: { width: 10_000, height: 10_000, channels: 3, background: "#fff" },
+    })
+      .png()
+      .toBuffer();
+    expect(await toPicture(edge)).toBeInstanceOf(Buffer);
+  });
 });
