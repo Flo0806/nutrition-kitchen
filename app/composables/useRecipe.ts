@@ -1,5 +1,5 @@
-import type { LabelOptions } from "~/utils/declaration";
-import { defaultLabelOptions, parseDraft, serializeDraft } from "~/utils/draft";
+import type { RecipeOptions } from "~/utils/declaration";
+import { defaultRecipeOptions, parseDraft, serializeDraft } from "~/utils/draft";
 import type { Source } from "~/utils/material";
 
 export type RecipeRow = Source & { id: number; amount: number | null };
@@ -10,7 +10,7 @@ let nextId = 1;
 /** The recipe being edited: one row per ingredient in the order of the list, and its label options. */
 export function useRecipe() {
   const rows = useState<RecipeRow[]>("recipe-rows", () => []);
-  const options = useState<LabelOptions>("recipe-options", () => ({ ...defaultLabelOptions }));
+  const options = useState<RecipeOptions>("recipe-options", () => ({ ...defaultRecipeOptions }));
   const { load } = useFoods();
 
   function add(source: Source, amount: number | null = null): RecipeRow {

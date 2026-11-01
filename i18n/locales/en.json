@@ -47,6 +47,14 @@
       "less": "{step} g less",
       "more": "{step} g more",
       "invalid": "Please enter a number of grams, for example 12.5."
+    },
+    "bakingLoss": {
+      "label": "Baking loss",
+      "hint": "What evaporates in the oven. Taken off the water.",
+      "noWater": "The baking loss needs a row of water in the recipe.",
+      "exceedsWater": "The baking loss ({loss} g) is more than the water in the recipe ({water} g).",
+      "afterBaking": "Weight after baking",
+      "rowAfterBaking": "After baking: {grams} g"
     }
   },
   "label": {
@@ -104,7 +112,8 @@
       "salt": {
         "sodiumMismatch": "Salt ({salt} g) and sodium ({sodium} g) do not match: salt is sodium times 2.5."
       }
-    }
+    },
+    "bakingLoss": "The baking loss does not fit the water in the recipe. See below the ingredients."
   },
   "material": {
     "open": "Own raw material",

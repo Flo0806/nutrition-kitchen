@@ -27,7 +27,7 @@ const rowName = (id: number) => {
 const rowNumber = (id: number) => rows.value.findIndex((row) => row.id === id) + 1;
 
 const withoutAmount = computed(() =>
-  declared.value.state === "declared" || declared.value.state === "refused"
+  "withoutAmount" in declared.value
     ? declared.value.withoutAmount.map(rowName).filter(Boolean)
     : [],
 );
@@ -96,6 +96,13 @@ async function copy() {
           </ul>
         </div>
         <!-- About the height of a label, so nothing below jumps when the values arrive. -->
+        <p
+          v-else-if="declared.state === 'bakingLoss'"
+          class="rounded-md border border-error p-4"
+          data-testid="problems"
+        >
+          {{ t("label.bakingLoss") }}
+        </p>
         <p
           v-else
           class="flex min-h-96 items-center justify-center rounded-md border border-dashed border-default p-6 text-center text-muted"

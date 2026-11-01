@@ -1,6 +1,6 @@
 import { C214200, N110000, R111000, R459000 } from "@thereforejs/foods";
 import { describe, expect, it } from "vitest";
-import { declare, explainGap, type LabelOptions } from "../../app/utils/declaration";
+import { declare, explainGap, type RecipeOptions } from "../../app/utils/declaration";
 import type { FoodEntry } from "../../shared/types/food";
 
 const entry = ({ code, name, per100g, marks }: FoodEntry): FoodEntry => ({
@@ -14,7 +14,12 @@ const foods = Object.fromEntries(
 );
 // The library joins number and unit with a no-break space.
 const nb = (text: string) => text.replaceAll(" ", "\u00a0");
-const options: LabelOptions = { pieceWeight: 60, voluntary: [], referenceIntake: false };
+const options: RecipeOptions = {
+  pieceWeight: 60,
+  voluntary: [],
+  referenceIntake: false,
+  bakingLoss: null,
+};
 
 // The bread rolls of the nutrition README: 600 g water less 180 g baking loss.
 const rolls = [
@@ -88,6 +93,27 @@ describe("declare", () => {
     expect(declared).toMatchObject({
       state: "refused",
       problems: [{ rowId: undefined, diagnostic: { code: "weight.zero" } }],
+    });
+  });
+});
+
+describe("declare with a baking loss", () => {
+  // The README rolls as typed into the app: 600 g water and 180 g baking loss.
+  const typed = rolls.map((row) => (row.id === 2 ? { ...row, amount: 600 } : row));
+
+  it("gives the same declaration as the rolls with 420 g water", () => {
+    const baked = declare(typed, foods, { ...options, bakingLoss: 180 });
+    const direct = declare(rolls, foods, options);
+    if (baked.state !== "declared" || direct.state !== "declared") throw new Error("not declared");
+    expect(baked.result).toEqual(direct.result);
+    expect(baked.baked).toEqual([{ rowId: 2, amount: 420 }]);
+  });
+
+  it("refuses more loss than water before calculating", () => {
+    expect(declare(typed, foods, { ...options, bakingLoss: 601 })).toMatchObject({
+      state: "bakingLoss",
+      problem: "exceedsWater",
+      water: 600,
     });
   });
 });

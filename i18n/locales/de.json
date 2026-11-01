@@ -47,6 +47,14 @@
       "less": "{step} g weniger",
       "more": "{step} g mehr",
       "invalid": "Bitte eine Zahl in Gramm eingeben, zum Beispiel 12,5."
+    },
+    "bakingLoss": {
+      "label": "Backverlust",
+      "hint": "Was im Ofen verdunstet. Wird vom Wasser abgezogen.",
+      "noWater": "Für den Backverlust braucht das Rezept eine Zeile Wasser.",
+      "exceedsWater": "Der Backverlust ({loss} g) ist größer als das Wasser im Rezept ({water} g).",
+      "afterBaking": "Gewicht nach dem Backen",
+      "rowAfterBaking": "Nach dem Backen: {grams} g"
     }
   },
   "label": {
@@ -104,7 +112,8 @@
       "salt": {
         "sodiumMismatch": "Salz ({salt} g) und Natrium ({sodium} g) passen nicht zusammen: Salz ist Natrium mal 2,5."
       }
-    }
+    },
+    "bakingLoss": "Der Backverlust passt nicht zum Wasser im Rezept. Mehr dazu unter der Zutatenliste."
   },
   "material": {
     "open": "Eigener Rohstoff",

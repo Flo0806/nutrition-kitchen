@@ -1,15 +1,16 @@
 import { z } from "zod";
 import { foodCode } from "#shared/utils/foodCode";
-import type { LabelOptions } from "~/utils/declaration";
+import type { RecipeOptions } from "~/utils/declaration";
 import { materialNutrients, type Source } from "~/utils/material";
 
 /** Grams; one tonne is far beyond any kitchen and keeps typos out. */
 export const maxAmount = 1_000_000;
 
-export const defaultLabelOptions: LabelOptions = {
+export const defaultRecipeOptions: RecipeOptions = {
   pieceWeight: null,
   voluntary: [],
   referenceIntake: false,
+  bakingLoss: null,
 };
 
 const grams = z.number().nonnegative().max(maxAmount);
@@ -38,8 +39,10 @@ const draftSchema = z.object({
         z.enum(["monounsaturates", "polyunsaturates", "polyols", "starch", "fibre"]),
       ),
       referenceIntake: z.boolean(),
+      // Drafts from before the baking loss have none.
+      bakingLoss: grams.nullable().default(null),
     })
-    .default(defaultLabelOptions),
+    .default(defaultRecipeOptions),
 });
 
 export type Draft = z.infer<typeof draftSchema>;
@@ -47,7 +50,7 @@ export type DraftRow = Draft["rows"][number];
 
 type Row = Source & { amount: number | null };
 
-export function serializeDraft({ rows, options }: { rows: Row[]; options: LabelOptions }): string {
+export function serializeDraft({ rows, options }: { rows: Row[]; options: RecipeOptions }): string {
   return JSON.stringify({
     version: 1,
     rows: rows.map((row) =>
@@ -59,6 +62,7 @@ export function serializeDraft({ rows, options }: { rows: Row[]; options: LabelO
       pieceWeight: options.pieceWeight,
       voluntary: options.voluntary,
       referenceIntake: options.referenceIntake,
+      bakingLoss: options.bakingLoss,
     },
   });
 }

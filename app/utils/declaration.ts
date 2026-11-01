@@ -7,12 +7,15 @@ import {
 } from "@thereforejs/nutrition";
 import { de, en } from "@thereforejs/nutrition/locales";
 import type { FoodEntry } from "#shared/types/food";
+import { takeBakingLoss } from "~/utils/bakingLoss";
 import { sourceValues, type Source } from "~/utils/material";
 
-export type LabelOptions = {
+export type RecipeOptions = {
   pieceWeight: number | null;
   voluntary: Voluntary[];
   referenceIntake: boolean;
+  /** Grams that evaporate in the oven, taken off the water. */
+  bakingLoss: number | null;
 };
 
 type Row = Source & { id: number; amount: number | null };
@@ -27,8 +30,21 @@ export type ReportedNutrient = NutritionResult["report"][number]["nutrient"];
 export type Declared =
   | { state: "empty" }
   | { state: "loading" }
-  | { state: "declared"; result: NutritionResult; gaps: Gap[]; withoutAmount: number[] }
-  | { state: "refused"; problems: Problem[]; withoutAmount: number[] };
+  | {
+      state: "declared";
+      result: NutritionResult;
+      gaps: Gap[];
+      /** Water rows as calculated, after the baking loss. */
+      baked: { rowId: number; amount: number }[];
+      withoutAmount: number[];
+    }
+  | { state: "refused"; problems: Problem[]; withoutAmount: number[] }
+  | {
+      state: "bakingLoss";
+      problem: "noWater" | "exceedsWater";
+      water: number;
+      withoutAmount: number[];
+    };
 
 /**
  * The declaration of the recipe. Rows without an amount stay out and are named, so the label never
@@ -37,11 +53,16 @@ export type Declared =
 export function declare(
   rows: Row[],
   foods: Record<string, FoodEntry>,
-  options: LabelOptions,
+  options: RecipeOptions,
 ): Declared {
   const withoutAmount = rows.filter((row) => row.amount === null).map((row) => row.id);
-  const counted = rows.filter((row) => row.amount !== null);
-  if (counted.length === 0) return { state: "empty" };
+  if (rows.every((row) => row.amount === null)) return { state: "empty" };
+  const baking = takeBakingLoss(
+    rows.filter((row) => row.amount !== null),
+    options.bakingLoss,
+  );
+  if ("problem" in baking) return { state: "bakingLoss", ...baking, withoutAmount };
+  const counted = baking.rows;
   const values = counted.map((row) => sourceValues(row, foods));
   if (values.some((value) => value === undefined)) return { state: "loading" };
 
@@ -62,7 +83,13 @@ export function declare(
       },
       { locales: [de, en], voluntary: options.voluntary, referenceIntake: options.referenceIntake },
     );
-    return { state: "declared", result, gaps: gapsByRow(result, counted), withoutAmount };
+    return {
+      state: "declared",
+      result,
+      gaps: gapsByRow(result, counted),
+      baked: baking.baked,
+      withoutAmount,
+    };
   } catch (error) {
     if (!(error instanceof DiagnosticError)) throw error;
     const problems = error.diagnostics.map((diagnostic) => ({

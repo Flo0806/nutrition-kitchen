@@ -1,6 +1,6 @@
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { defaultLabelOptions, maxAmount, parseDraft, serializeDraft } from "../../app/utils/draft";
+import { defaultRecipeOptions, maxAmount, parseDraft, serializeDraft } from "../../app/utils/draft";
 
 const grams = fc.double({ min: 0, max: maxAmount, noNaN: true }).map((g) => (g === 0 ? 0 : g));
 const amount = fc.option(grams, { nil: null });
@@ -33,6 +33,7 @@ const draft = fc.record({
       fc.constantFrom("monounsaturates", "polyunsaturates", "polyols", "starch", "fibre" as const),
     ),
     referenceIntake: fc.boolean(),
+    bakingLoss: fc.option(grams, { nil: null }),
   }),
 });
 
@@ -47,9 +48,9 @@ describe("draft", () => {
 
   it("drops extra fields of a row", () => {
     const rows = [{ code: "C214200", amount: 500, name: "Mehl" }];
-    expect(parseDraft(serializeDraft({ rows, options: defaultLabelOptions }))).toEqual({
+    expect(parseDraft(serializeDraft({ rows, options: defaultRecipeOptions }))).toEqual({
       rows: [{ code: "C214200", amount: 500 }],
-      options: defaultLabelOptions,
+      options: defaultRecipeOptions,
     });
   });
 
@@ -57,8 +58,14 @@ describe("draft", () => {
     const old = '{"version":1,"rows":[{"code":"C214200","amount":500}]}';
     expect(parseDraft(old)).toEqual({
       rows: [{ code: "C214200", amount: 500 }],
-      options: defaultLabelOptions,
+      options: defaultRecipeOptions,
     });
+  });
+
+  it("reads label options from before the baking loss", () => {
+    const old =
+      '{"version":1,"rows":[],"options":{"pieceWeight":60,"voluntary":[],"referenceIntake":true}}';
+    expect(parseDraft(old)).toMatchObject({ options: { pieceWeight: 60, bakingLoss: null } });
   });
 
   it("reads nothing as nothing", () => {

@@ -2,7 +2,7 @@
 import { formatAmount, parseAmount } from "~/utils/amount";
 import { maxAmount } from "~/utils/draft";
 
-const props = defineProps<{ id: string; label: string }>();
+const props = defineProps<{ id: string; label: string; disabled?: boolean }>();
 const amount = defineModel<number | null>({ required: true });
 const { t, locale } = useI18n();
 const language = computed(() => (locale.value === "en" ? "en" : "de"));
@@ -49,7 +49,7 @@ function tidy() {
         color="neutral"
         variant="outline"
         :aria-label="t('builder.amount.less', { step })"
-        :disabled="!amount"
+        :disabled="disabled || !amount"
         @click="stepBy(-step)"
       />
       <UInput
@@ -62,6 +62,7 @@ function tidy() {
         :color="invalid ? 'error' : 'primary'"
         :highlight="invalid"
         :aria-label="label"
+        :disabled="disabled"
         :aria-invalid="invalid"
         :aria-describedby="invalid ? hintId : undefined"
         @blur="tidy"
@@ -71,6 +72,7 @@ function tidy() {
         color="neutral"
         variant="outline"
         :aria-label="t('builder.amount.more', { step })"
+        :disabled="disabled"
         @click="stepBy(step)"
       />
     </UFieldGroup>

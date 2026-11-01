@@ -20,5 +20,6 @@ const total = computed(() => rows.value.reduce((sum, row) => sum + (row.amount ?
       <span>{{ t("builder.rows.total") }}</span>
       <span class="font-bold">{{ n(total, { maximumFractionDigits: 2 }) }} g</span>
     </p>
+    <BuilderBakingLoss v-if="rows.length > 0" :total="total" />
   </section>
 </template>

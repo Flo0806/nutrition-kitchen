@@ -4,7 +4,12 @@ type Custom = { name: string; per100g: Record<string, string | null> };
 
 type Draft = {
   rows: (({ code: string } | { custom: Custom }) & { amount: number | null })[];
-  options?: { pieceWeight: number | null; voluntary: string[]; referenceIntake: boolean };
+  options?: {
+    pieceWeight: number | null;
+    voluntary: string[];
+    referenceIntake: boolean;
+    bakingLoss?: number | null;
+  };
 };
 
 /** The bread rolls of the nutrition README: 600 g water less 180 g baking loss, 60 g pieces. */

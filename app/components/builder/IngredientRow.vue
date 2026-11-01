@@ -3,7 +3,7 @@ import type { RecipeRow } from "~/composables/useRecipe";
 import { sourceName } from "~/utils/material";
 
 const props = defineProps<{ row: RecipeRow; index: number }>();
-const { t, locale } = useI18n();
+const { t, n, locale } = useI18n();
 const { foods, failed, load } = useFoods();
 const { remove, replace, setAmount, move } = useRecipe();
 const askMaterial = useMaterialForm();
@@ -18,6 +18,10 @@ const problems = computed(() =>
         .map((problem) => describeProblem(problem.diagnostic))
     : [],
 );
+const afterBaking = computed(() => {
+  if (declared.value.state !== "declared") return undefined;
+  return declared.value.baked.find((candidate) => candidate.rowId === props.row.id)?.amount;
+});
 const gap = computed(() => {
   if (declared.value.state !== "declared") return "";
   const found = declared.value.gaps.find((candidate) => candidate.rowId === props.row.id);
@@ -101,7 +105,18 @@ async function moveBy(delta: number) {
       :aria-label="t('builder.row.remove', { name })"
       @click="remove(row.id)"
     />
-    <div v-if="problems.length > 0 || gap" class="text-sm [grid-area:note]" data-testid="row-note">
+    <div
+      v-if="problems.length > 0 || gap || afterBaking !== undefined"
+      class="text-sm [grid-area:note]"
+      data-testid="row-note"
+    >
+      <p v-if="afterBaking !== undefined">
+        {{
+          t("builder.bakingLoss.rowAfterBaking", {
+            grams: n(afterBaking, { maximumFractionDigits: 2 }),
+          })
+        }}
+      </p>
       <p v-for="problem in problems" :key="problem" class="text-error">{{ problem }}</p>
       <p v-if="gap" class="text-muted">{{ gap }}</p>
     </div>
