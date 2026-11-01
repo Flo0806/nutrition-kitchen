@@ -22,7 +22,7 @@ export default defineConfig({
   webServer: {
     // A fresh database each run, apart from the dev server's. Plain http here, so the session
     // cookie may not be Secure, or WebKit drops it; production keeps the default.
-    command: `pnpm build --envName e2e && rm -rf .data/e2e && NUXT_DATABASE_PATH=.data/e2e/nutrition-kitchen.sqlite NUXT_APP_SECRET=e2e-only-secret-never-used-in-production NUXT_SESSION_COOKIE_SECURE=false PORT=${port} node .output-e2e/server/index.mjs`,
+    command: `pnpm build --envName e2e && rm -rf .data/e2e && NUXT_DATABASE_PATH=.data/e2e/nutrition-kitchen.sqlite NUXT_APP_SECRET=e2e-only-secret-never-used-in-production NUXT_SESSION_COOKIE_SECURE=false PORT=${port} node --require ./tests/e2e/stall-probe.cjs .output-e2e/server/index.mjs`,
     url: `http://localhost:${port}`,
     reuseExistingServer: false,
     timeout: 180_000,
