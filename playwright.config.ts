@@ -2,7 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 // A production build on its own port, so tests never touch a running dev server.
 const port = 3101;
-const nodeOnly = /(api|bundle)\.spec\.ts$/;
+const nodeOnly = /(api|bundle|startup)\.spec\.ts$/;
 
 export default defineConfig({
   testDir: "tests/e2e",

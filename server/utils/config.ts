@@ -2,6 +2,8 @@ import { z } from "zod";
 
 const schema = z.object({
   databasePath: z.string().trim().min(1),
+  // Seals the session cookie. Nuxt only checks it at the first login; this stops the start instead.
+  appSecret: z.string().min(32, "NUXT_APP_SECRET needs at least 32 characters"),
 });
 
 let config: z.infer<typeof schema> | undefined;
