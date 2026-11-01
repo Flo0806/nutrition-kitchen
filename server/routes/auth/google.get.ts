@@ -12,7 +12,9 @@ export default defineOAuthGoogleEventHandler({
     await signIn(event, { provider: "google", providerId: sub, name });
     return sendRedirect(event, loginReturn(event));
   },
-  onError(event) {
+  onError(event, error) {
+    // The page only says it failed; the reason belongs in the server log.
+    console.error("[auth] Google login failed:", error.message);
     return sendRedirect(event, "/login?failed=google");
   },
 });

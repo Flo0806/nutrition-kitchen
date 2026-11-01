@@ -17,11 +17,16 @@ async function displayName(did: string) {
 export default defineOAuthBlueskyEventHandler({
   async onSuccess(event, { user }) {
     const did = "did" in user ? user.did : "";
-    if (!did) return sendRedirect(event, "/login?failed=bluesky");
+    if (!did) {
+      console.error("[auth] Bluesky login failed: the answer names no account (DID)");
+      return sendRedirect(event, "/login?failed=bluesky");
+    }
     await signIn(event, { provider: "bluesky", providerId: did, name: await displayName(did) });
     return sendRedirect(event, loginReturn(event));
   },
-  onError(event) {
+  onError(event, error) {
+    // The page only says it failed; the reason belongs in the server log.
+    console.error("[auth] Bluesky login failed:", error.message);
     return sendRedirect(event, "/login?failed=bluesky");
   },
 });
