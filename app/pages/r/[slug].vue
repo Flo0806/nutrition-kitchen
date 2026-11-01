@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { sourceName } from "#shared/utils/material";
-import { loginReturnCookie, sharedPath, type SharedRecipe } from "#shared/utils/share";
+import { loginReturnCookie, sharedPath, shareSlug, type SharedRecipe } from "#shared/utils/share";
 import type { RecipeRow } from "~/composables/useRecipe";
 
 const { t, n, locale } = useI18n();
@@ -12,8 +12,12 @@ const describeError = useRequestError();
 const toast = useToast();
 const returnTo = useCookie(loginReturnCookie, { maxAge: 10 * 60, sameSite: "lax", path: "/" });
 
-const { data: recipe, error } = await useFetch<SharedRecipe>(`/api/shared/${slug}`);
-if (error.value || !recipe.value) {
+// Checked before it becomes part of a request path.
+const valid = shareSlug.test(slug);
+const { data: recipe, error } = await useFetch<SharedRecipe>(`/api/shared/${slug}`, {
+  immediate: valid,
+});
+if (!valid || error.value || !recipe.value) {
   // The server shows the error page anyway; there `fatal` would log every dead link as a crash.
   throw createError({
     statusCode: 404,
