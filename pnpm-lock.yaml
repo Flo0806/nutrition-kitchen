@@ -19,13 +19,13 @@ importers:
         version: 10.6.0(@nuxt/schema@4.6.3)(@vue/compiler-dom@3.5.44)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(jiti@2.7.0)(rolldown@1.2.16)(rollup@4.67.2)(supports-color@10.2.2)(typescript@6.0.3)(vite@8.3.5(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue@3.5.44(typescript@6.0.3))
       '@thereforejs/food-finder':
         specifier: '>=0.0.1 <0.1.0'
-        version: 0.0.1(@thereforejs/foods@0.0.1)
+        version: 0.0.2(@thereforejs/foods@0.0.1)
       '@thereforejs/foods':
         specifier: '>=0.0.1 <0.1.0'
         version: 0.0.1
       '@thereforejs/nutrition':
         specifier: '>=0.0.1 <0.1.0'
-        version: 0.0.1(@thereforejs/food-finder@0.0.1(@thereforejs/foods@0.0.1))(@thereforejs/foods@0.0.1)
+        version: 0.0.1(@thereforejs/food-finder@0.0.2(@thereforejs/foods@0.0.1))(@thereforejs/foods@0.0.1)
       '@vueuse/integrations':
         specifier: ^14.4.0
         version: 14.4.0(fuse.js@7.5.0)(sortablejs@1.15.7)(vue@3.5.44(typescript@6.0.3))
@@ -2120,8 +2120,8 @@ packages:
     resolution: {integrity: sha512-fQRrFCT4y7CC27jgdvzpHfC0TJ80lEi+F3dZk1XyNEuc9/yzsq9nW22GFkFTtO3+9KKsWqN6xvzVewkDyMm9og==}
     engines: {node: '>=22'}
 
-  '@thereforejs/food-finder@0.0.1':
-    resolution: {integrity: sha512-6X086IzdfYO35jq2ImS7H3hbF05miAMKwtZsa0reMvhHgg7fWBhTT9DMTo4RELsmmT2FJU93Cg3fkJkKblxTwA==}
+  '@thereforejs/food-finder@0.0.2':
+    resolution: {integrity: sha512-6P04182nBr4wxnND/rdHRbaOJTfWL20j1FYYXfqaRQhknnsOlCMQVmydRAQyb1iJhRHN3y3MM0WAXaDP1D8TKg==}
     peerDependencies:
       '@thereforejs/foods': '>=0.0.1 <1'
 
@@ -7419,17 +7419,17 @@ snapshots:
 
   '@thereforejs/decy@0.1.1': {}
 
-  '@thereforejs/food-finder@0.0.1(@thereforejs/foods@0.0.1)':
+  '@thereforejs/food-finder@0.0.2(@thereforejs/foods@0.0.1)':
     dependencies:
       '@thereforejs/foods': 0.0.1
 
   '@thereforejs/foods@0.0.1': {}
 
-  '@thereforejs/nutrition@0.0.1(@thereforejs/food-finder@0.0.1(@thereforejs/foods@0.0.1))(@thereforejs/foods@0.0.1)':
+  '@thereforejs/nutrition@0.0.1(@thereforejs/food-finder@0.0.2(@thereforejs/foods@0.0.1))(@thereforejs/foods@0.0.1)':
     dependencies:
       '@thereforejs/decy': 0.1.1
     optionalDependencies:
-      '@thereforejs/food-finder': 0.0.1(@thereforejs/foods@0.0.1)
+      '@thereforejs/food-finder': 0.0.2(@thereforejs/foods@0.0.1)
       '@thereforejs/foods': 0.0.1
 
   '@tiptap/core@3.32.2(@tiptap/pm@3.32.2)':

@@ -4,3 +4,4 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - "@thereforejs/food-finder@0.0.1"
   - "@thereforejs/nutrition@0.0.1"
+  - "@thereforejs/food-finder@0.0.2"

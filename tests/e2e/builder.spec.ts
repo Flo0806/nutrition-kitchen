@@ -132,3 +132,19 @@ test("switching to English renames the rows and keeps the amounts", async ({ pag
   await expect(page.getByRole("textbox", { name: /in grams$/ })).toHaveValue("12.5");
   await expect(total(page)).toHaveText("Total12.5 g");
 });
+
+test("everyday words find what a cook means", async ({ page }) => {
+  await addDirect(page, "Wasser", "600");
+  await expect(rowNames(page)).toHaveText(["Trinkwasser"]);
+
+  await search(page).fill("Salz");
+  await expect(page.getByRole("option").first()).toHaveText("Speisesalz/Siedesalz/Tafelsalz");
+});
+
+test("English everyday words find what a cook means", async ({ page }) => {
+  await page.getByRole("button", { name: "English" }).click();
+  const english = page.getByRole("combobox", { name: "Find an ingredient" });
+  await english.fill("butter");
+  await english.press("Enter");
+  await expect(rowNames(page)).toHaveText(["Sweet cream butter"]);
+});
