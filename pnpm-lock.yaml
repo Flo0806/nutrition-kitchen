@@ -25,22 +25,31 @@ importers:
         version: 10.6.0(@nuxt/schema@4.6.3)(@vue/compiler-dom@3.5.44)(db0@0.3.4(better-sqlite3@13.0.3)(drizzle-orm@0.45.4(@types/better-sqlite3@9.6.0)(better-sqlite3@13.0.3)))(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(jiti@2.7.0)(rolldown@1.2.16)(rollup@4.67.2)(supports-color@10.2.2)(typescript@6.0.3)(vite@8.3.5(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vue@3.5.44(typescript@6.0.3))
       '@thereforejs/food-finder':
         specifier: '>=0.0.1 <0.1.0'
-        version: 0.0.2(@thereforejs/foods@0.0.1)
+        version: 0.0.3(@thereforejs/foods@0.0.3)
       '@thereforejs/foods':
         specifier: '>=0.0.1 <0.1.0'
-        version: 0.0.1
+        version: 0.0.3
       '@thereforejs/nutrition':
         specifier: '>=0.0.1 <0.1.0'
-        version: 0.0.1(@thereforejs/food-finder@0.0.2(@thereforejs/foods@0.0.1))(@thereforejs/foods@0.0.1)
+        version: 0.0.1(@thereforejs/food-finder@0.0.3(@thereforejs/foods@0.0.3))(@thereforejs/foods@0.0.3)
       '@vueuse/integrations':
         specifier: ^14.4.0
         version: 14.4.0(fuse.js@7.5.0)(sortablejs@1.15.7)(vue@3.5.44(typescript@6.0.3))
+      altcha:
+        specifier: ^3.5.0
+        version: 3.5.0
+      altcha-lib:
+        specifier: ^2.8.0
+        version: 2.8.0(cors@2.8.6)(express@5.3.0(supports-color@10.2.2))(h3@1.15.11)(hono@4.13.14)
       better-sqlite3:
         specifier: ^13.0.3
         version: 13.0.3
       drizzle-orm:
         specifier: ^0.45.4
         version: 0.45.4(@types/better-sqlite3@9.6.0)(better-sqlite3@13.0.3)
+      nodemailer:
+        specifier: ^10.3.1
+        version: 10.3.1
       nuxt:
         specifier: ^4.6.3
         version: 4.6.3(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.156.0)(@types/node@22.20.5)(@vue/compiler-sfc@3.5.44)(acorn@8.19.0)(better-sqlite3@13.0.3)(confbox@0.2.4)(db0@0.3.4(better-sqlite3@13.0.3)(drizzle-orm@0.45.4(@types/better-sqlite3@9.6.0)(better-sqlite3@13.0.3)))(dotenv@17.4.2)(drizzle-orm@0.45.4(@types/better-sqlite3@9.6.0)(better-sqlite3@13.0.3))(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.141.0)(oxlint@1.90.0)(rolldown@1.2.16)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.16)(rollup@4.67.2))(rollup@4.67.2)(srvx@1.0.8)(supports-color@10.2.2)(terser@5.51.2)(tsx@4.23.15)(typescript@6.0.3)(vite@8.3.5(@types/node@22.20.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vue-tsc@3.3.14(typescript@6.0.3))(yaml@2.9.1)
@@ -75,6 +84,9 @@ importers:
       '@types/node':
         specifier: ^22.20.5
         version: 22.20.5
+      '@types/nodemailer':
+        specifier: ^8.0.2
+        version: 8.0.2
       '@types/sortablejs':
         specifier: ^1.15.9
         version: 1.15.9
@@ -2566,13 +2578,13 @@ packages:
     resolution: {integrity: sha512-fQRrFCT4y7CC27jgdvzpHfC0TJ80lEi+F3dZk1XyNEuc9/yzsq9nW22GFkFTtO3+9KKsWqN6xvzVewkDyMm9og==}
     engines: {node: '>=22'}
 
-  '@thereforejs/food-finder@0.0.2':
-    resolution: {integrity: sha512-6P04182nBr4wxnND/rdHRbaOJTfWL20j1FYYXfqaRQhknnsOlCMQVmydRAQyb1iJhRHN3y3MM0WAXaDP1D8TKg==}
+  '@thereforejs/food-finder@0.0.3':
+    resolution: {integrity: sha512-QIjGtG9m8LpSJyviRkCEYQsjte8lWoZUyU62TsxYd5z3rPVOO7k/YX7tB31wUF5rK+dsrvJlAuAN+YiPsXYZ+A==}
     peerDependencies:
       '@thereforejs/foods': '>=0.0.1 <1'
 
-  '@thereforejs/foods@0.0.1':
-    resolution: {integrity: sha512-FFxKNvyDhHVm9ueyVLp//vs/xgtEa66RSNBeDSRRM9s84+yuu07Dq9vhwe5t85utOLjbVrnGav5xQQtmC8X1qQ==}
+  '@thereforejs/foods@0.0.3':
+    resolution: {integrity: sha512-AhAvdcDsbIOWlDD+qrUjNCDcTMLDu4DTM2JlU6eaUqRXBul6YdOrv9sKM/yjir23yRTMb/mY7TQFlU4W3cTsCQ==}
 
   '@thereforejs/nutrition@0.0.1':
     resolution: {integrity: sha512-bfobZF9OZBEsQQFVQ5hkWhex4QS2ltaPZ9BGf9zrIeMWAnjuFrZH0dMdP6Os2EmXUbz3biNmdf1zaiZZwT009A==}
@@ -2823,6 +2835,9 @@ packages:
 
   '@types/node@26.6.6':
     resolution: {integrity: sha512-MzQj+8Kx3XI40OmUAE6Qoh58ZMNstNNMwn2nfd3qWsfe7nDNSqJNzes4njhz6AHwrSHOffSLwXU6yb474Q4aog==}
+
+  '@types/nodemailer@8.0.2':
+    resolution: {integrity: sha512-c7M5ox8p0nEOfbJ2E9Qcmt8/QCu/VzsiAhzBiZbvky2PhKZDHpKB3sQHBM5MEZNkCfBOaS6S9//AGPRTNB7IaA==}
 
   '@types/pluralize@0.0.33':
     resolution: {integrity: sha512-JOqsl+ZoCpP4e8TDke9W79FDcSgPAR0l6pixx2JHkhnRjvShyYiAYw2LVsnA7K08Y6DeOnaU6ujmENO4os/cYg==}
@@ -3146,6 +3161,57 @@ packages:
 
   alien-signals@3.2.1:
     resolution: {integrity: sha512-I8FjmltrfnDFoZedi5CG8DghVYNhzb/Ijluz7tCSJH0xpd0484Kowhbb1XDYOxfJpU1p5wnM2X54dA+IfGyD1g==}
+
+  altcha-lib@2.8.0:
+    resolution: {integrity: sha512-at1DAqS8u6Z+XbPV2xQd/oATDTxYN83gITqIfsCSz7a2ENqUNIvn9h9xPuAbjeQ3JFqrW8KCjinphhm+bUrRzQ==}
+    hasBin: true
+    peerDependencies:
+      '@fastify/cookie': ^11.0.0
+      '@fastify/cors': ^11.0.0
+      '@fastify/formbody': ^8.0.0 || ^9.0.0
+      '@nestjs/common': ^10.0.0 || ^11.0.0 || ^12.0.0
+      '@nestjs/core': ^10.0.0 || ^11.0.0 || ^12.0.0
+      '@nestjs/platform-express': ^10.0.0 || ^11.0.0 || ^12.0.0
+      '@nestjs/platform-fastify': ^10.0.0 || ^11.0.0 || ^12.0.0
+      '@sveltejs/kit': ^2.0.0 || ^3.0.0
+      cookie-parser: ^1.0.0
+      cors: ^2.0.0
+      express: ^4.0.0 || ^5.0.0
+      fastify: ^5.0.0
+      h3: ^1.15.0 || ^2.0.0
+      hono: ^4.0.0
+    peerDependenciesMeta:
+      '@fastify/cookie':
+        optional: true
+      '@fastify/cors':
+        optional: true
+      '@fastify/formbody':
+        optional: true
+      '@nestjs/common':
+        optional: true
+      '@nestjs/core':
+        optional: true
+      '@nestjs/platform-express':
+        optional: true
+      '@nestjs/platform-fastify':
+        optional: true
+      '@sveltejs/kit':
+        optional: true
+      cookie-parser:
+        optional: true
+      cors:
+        optional: true
+      express:
+        optional: true
+      fastify:
+        optional: true
+      h3:
+        optional: true
+      hono:
+        optional: true
+
+  altcha@3.5.0:
+    resolution: {integrity: sha512-wBXNK1bBeWs/XTOZiyE3JQvRNECgFKYEJqcPxFW7tFd7ErG62yQmMlRasygZrza3zyNTTuon3BfMF/PcBcepcw==}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -4094,6 +4160,9 @@ packages:
     resolution: {integrity: sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==}
     engines: {node: '>= 0.4'}
 
+  hash-wasm@4.12.0:
+    resolution: {integrity: sha512-+/2B2rYLb48I/evdOIhP+K/DD2ca2fgBjp6O+GBEnCDk2e4rpeXIK8GvIyRPjTezgmWn9gmKwkQjjx6BtqDHVQ==}
+
   hasown@2.0.4:
     resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
     engines: {node: '>= 0.4'}
@@ -4684,6 +4753,10 @@ packages:
   node-releases@2.0.62:
     resolution: {integrity: sha512-A0Eq+qVDQI97IbAD6g/HriIuv256el9N8EwF4+xqJ49pwrdRYpdCSmLk0sO4I3fnS6hpYE5v22B73Bk+WArEoQ==}
     engines: {node: '>=18'}
+
+  nodemailer@10.3.1:
+    resolution: {integrity: sha512-uF0AFsJC07Y1vdW7p580DKAnh7rAO+4UPSSB3mDCPNDufoiaOebV6JmrzpxB14OjEEEiBsNdYoM2Y+fN8M7BBA==}
+    engines: {node: '>=20.0.0'}
 
   nopt@8.1.0:
     resolution: {integrity: sha512-ieGu42u/Qsa4TFktmaKEwM6MQH0pOWnaB3htzh0JRtx84+Mebc0cbZYN5bC+6WTZ4+77xrL9Pn5m7CV6VIkV7A==}
@@ -8469,18 +8542,18 @@ snapshots:
 
   '@thereforejs/decy@0.1.1': {}
 
-  '@thereforejs/food-finder@0.0.2(@thereforejs/foods@0.0.1)':
+  '@thereforejs/food-finder@0.0.3(@thereforejs/foods@0.0.3)':
     dependencies:
-      '@thereforejs/foods': 0.0.1
+      '@thereforejs/foods': 0.0.3
 
-  '@thereforejs/foods@0.0.1': {}
+  '@thereforejs/foods@0.0.3': {}
 
-  '@thereforejs/nutrition@0.0.1(@thereforejs/food-finder@0.0.2(@thereforejs/foods@0.0.1))(@thereforejs/foods@0.0.1)':
+  '@thereforejs/nutrition@0.0.1(@thereforejs/food-finder@0.0.3(@thereforejs/foods@0.0.3))(@thereforejs/foods@0.0.3)':
     dependencies:
       '@thereforejs/decy': 0.1.1
     optionalDependencies:
-      '@thereforejs/food-finder': 0.0.2(@thereforejs/foods@0.0.1)
-      '@thereforejs/foods': 0.0.1
+      '@thereforejs/food-finder': 0.0.3(@thereforejs/foods@0.0.3)
+      '@thereforejs/foods': 0.0.3
 
   '@tiptap/core@3.32.2(@tiptap/pm@3.32.2)':
     dependencies:
@@ -8735,6 +8808,10 @@ snapshots:
   '@types/node@26.6.6':
     dependencies:
       undici-types: 8.9.0
+
+  '@types/nodemailer@8.0.2':
+    dependencies:
+      '@types/node': 22.20.5
 
   '@types/pluralize@0.0.33': {}
 
@@ -9103,6 +9180,17 @@ snapshots:
       require-from-string: 2.0.2
 
   alien-signals@3.2.1: {}
+
+  altcha-lib@2.8.0(cors@2.8.6)(express@5.3.0(supports-color@10.2.2))(h3@1.15.11)(hono@4.13.14):
+    optionalDependencies:
+      cors: 2.8.6
+      express: 5.3.0(supports-color@10.2.2)
+      h3: 1.15.11
+      hono: 4.13.14
+
+  altcha@3.5.0:
+    dependencies:
+      hash-wasm: 4.12.0
 
   ansi-regex@5.0.1: {}
 
@@ -10028,6 +10116,8 @@ snapshots:
 
   has-symbols@1.1.0: {}
 
+  hash-wasm@4.12.0: {}
+
   hasown@2.0.4:
     dependencies:
       function-bind: 1.1.2
@@ -10624,6 +10714,8 @@ snapshots:
   node-mock-http@1.0.5: {}
 
   node-releases@2.0.62: {}
+
+  nodemailer@10.3.1: {}
 
   nopt@8.1.0:
     dependencies:

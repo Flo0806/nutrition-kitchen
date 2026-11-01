@@ -6,3 +6,5 @@ minimumReleaseAgeExclude:
   - "@thereforejs/food-finder@0.0.1"
   - "@thereforejs/nutrition@0.0.1"
   - "@thereforejs/food-finder@0.0.2"
+  - "@thereforejs/foods@0.0.3"
+  - "@thereforejs/food-finder@0.0.3"
