@@ -1,3 +1,4 @@
+import { crc32 } from "node:zlib";
 import sharp from "sharp";
 import { expect, test, type Page } from "@playwright/test";
 import { signInAs } from "./auth";
@@ -251,11 +252,16 @@ test("a photo of more than 100 megapixels is refused", async ({ page }) => {
     data: { title: "Bombe", instructions: "", rows: rolls.rows, options: rolls.options },
   });
   const { id } = (await created.json()) as { id: number };
-  const bomb = await sharp({
-    create: { width: 10_001, height: 10_000, channels: 3, background: "#fff" },
-  })
+  // What an attacker sends: a tiny file whose header claims the pixels. Real pixels would cost
+  // the test machine seconds of every core.
+  const bomb = await sharp({ create: { width: 1, height: 1, channels: 3, background: "#fff" } })
     .png()
     .toBuffer();
+  // IHDR right after the 8-byte signature: length, type, width, height, ..., crc of type and data.
+  bomb.writeUInt32BE(10_001, 16);
+  bomb.writeUInt32BE(10_000, 20);
+  bomb.writeUInt32BE(crc32(bomb.subarray(12, 29)), 29);
+  expect(await sharp(bomb).metadata()).toMatchObject({ width: 10_001, height: 10_000 });
   const response = await page.request.put(`/api/recipes/${id}/image`, {
     multipart: { picture: { name: "p.png", mimeType: "image/png", buffer: bomb } },
   });

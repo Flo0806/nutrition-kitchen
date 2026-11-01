@@ -21,6 +21,17 @@
   line-height: 1.6;
 }
 
+.legal-text :slotted(ul) {
+  margin-top: 0.75rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+  line-height: 1.6;
+}
+
+.legal-text :slotted(li + li) {
+  margin-top: 0.5rem;
+}
+
 .legal-text :slotted(a) {
   text-decoration: underline;
 }

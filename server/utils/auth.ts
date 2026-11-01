@@ -6,19 +6,19 @@ import { users } from "../db/schema";
 
 /** Signs in the user of an account, creating them on their first login. */
 export async function signIn(event: RequestEvent, account: Account) {
-  const user = upsertUser(useDb(), account);
-  await setUserSession(event, { user, loggedInAt: Date.now() });
+  const { sessionVersion, ...user } = upsertUser(useDb(), account);
+  await setUserSession(event, { user, secure: { sessionVersion }, loggedInAt: Date.now() });
   return user;
 }
 
 /**
- * The signed-in user, or 401. Checked against the database, so a deleted account's cookie opens
- * nothing.
+ * The signed-in user, or 401. Checked against the database, so the cookie of a deleted account or
+ * of an ended session opens nothing.
  */
 export async function requireUser(event: RequestEvent) {
-  const { user } = await requireUserSession(event);
+  const { user, secure } = await requireUserSession(event);
   const found = useDb().select().from(users).where(eq(users.id, user.id)).get();
-  if (!found) {
+  if (!found || found.sessionVersion !== secure?.sessionVersion) {
     await clearUserSession(event);
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }

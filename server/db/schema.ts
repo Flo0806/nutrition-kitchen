@@ -26,6 +26,8 @@ export const users = sqliteTable(
     providerId: text("provider_id").notNull(),
     name: text().notNull(),
     avatarUrl: text("avatar_url"),
+    // In the sealed cookie too; a logout counts it up, so every older cookie stops working.
+    sessionVersion: integer("session_version").notNull().default(0),
     createdAt: createdAt(),
   },
   (table) => [

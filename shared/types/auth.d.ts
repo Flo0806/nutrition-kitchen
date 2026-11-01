@@ -5,6 +5,10 @@ declare module "#auth-utils" {
     name: string;
     provider: "google" | "bluesky";
   }
+  // Server side only, never sent to the browser.
+  interface SecureSessionData {
+    sessionVersion: number;
+  }
 }
 
 export {};

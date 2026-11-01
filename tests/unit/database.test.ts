@@ -135,7 +135,12 @@ describe("upsertUser", () => {
       providerId: "did:plc:abc",
       name: "Florian",
     });
-    expect(again).toEqual({ id: first.id, name: "Florian", provider: "bluesky" });
+    expect(again).toEqual({
+      id: first.id,
+      name: "Florian",
+      provider: "bluesky",
+      sessionVersion: 0,
+    });
     expect(db.select().from(users).all()).toHaveLength(1);
   });
 

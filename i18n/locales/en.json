@@ -225,5 +225,11 @@
     "failed": "Something went wrong.",
     "failedHint": "Please reload the page or try again later.",
     "home": "To the start page"
+  },
+  "account": {
+    "delete": "Delete account",
+    "deleteConfirm": "Delete your account?",
+    "deleteFinal": "Your account, all saved recipes and their photos are deleted at once and for good. Shared links stop working. The draft in the editor stays on this device.",
+    "deleted": "Your account is deleted."
   }
 }

@@ -225,5 +225,11 @@
     "failed": "Das hat nicht geklappt.",
     "failedHint": "Bitte laden Sie die Seite neu oder versuchen Sie es später noch einmal.",
     "home": "Zur Startseite"
+  },
+  "account": {
+    "delete": "Konto löschen",
+    "deleteConfirm": "Ihr Konto löschen?",
+    "deleteFinal": "Ihr Konto, alle gespeicherten Rezepte und ihre Fotos werden sofort und endgültig gelöscht. Geteilte Links funktionieren danach nicht mehr. Ihr Entwurf im Editor bleibt auf diesem Gerät.",
+    "deleted": "Ihr Konto ist gelöscht."
   }
 }
