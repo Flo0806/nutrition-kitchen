@@ -20,8 +20,9 @@ export default defineConfig({
     { name: "mobile-webkit", testIgnore: nodeOnly, use: { ...devices["iPhone 15"] } },
   ],
   webServer: {
-    // A fresh database each run, apart from the dev server's.
-    command: `pnpm build --envName e2e && rm -rf .data/e2e && NUXT_DATABASE_PATH=.data/e2e/nutrition-kitchen.sqlite PORT=${port} node .output-e2e/server/index.mjs`,
+    // A fresh database each run, apart from the dev server's. Plain http here, so the session
+    // cookie may not be Secure, or WebKit drops it; production keeps the default.
+    command: `pnpm build --envName e2e && rm -rf .data/e2e && NUXT_DATABASE_PATH=.data/e2e/nutrition-kitchen.sqlite NUXT_APP_SECRET=e2e-only-secret-never-used-in-production NUXT_SESSION_COOKIE_SECURE=false PORT=${port} node .output-e2e/server/index.mjs`,
     url: `http://localhost:${port}`,
     reuseExistingServer: false,
     timeout: 180_000,

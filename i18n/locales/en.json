@@ -131,5 +131,23 @@
     "badge": "Own raw material",
     "edit": "Edit {name}",
     "fromSearch": "Add “{query}” as own raw material"
+  },
+  "auth": {
+    "login": "Sign in",
+    "logout": "Sign out",
+    "menu": "Account of {name}",
+    "title": "Sign in",
+    "intro": "You only need an account to save and share recipes. For that we store your name and an identifier of your account, no email address.",
+    "google": "Sign in with Google",
+    "bluesky": "Sign in with Bluesky",
+    "handle": "Your Bluesky handle",
+    "handlePlaceholder": "name.bsky.social",
+    "handleRequired": "Please enter your Bluesky handle.",
+    "failed": {
+      "google": "Signing in with Google did not work. Please try again.",
+      "bluesky": "Signing in with Bluesky did not work. Check your handle and try again."
+    },
+    "signedInAs": "You are signed in as {name}.",
+    "back": "Back to the recipe"
   }
 }

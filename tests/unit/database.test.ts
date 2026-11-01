@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { openDatabase, type Db } from "../../server/db/open";
 import { recipeIngredients, recipes, users } from "../../server/db/schema";
+import { upsertUser } from "../../server/db/users";
 
 let dir: string;
 let db: Db;
@@ -123,5 +124,24 @@ describe("database", () => {
     db.$client.close();
     db = openDatabase(path);
     expect(db.select().from(recipes).all()).toHaveLength(1);
+  });
+});
+
+describe("upsertUser", () => {
+  it("creates a user on the first login and finds the same one on the next", () => {
+    const first = upsertUser(db, { provider: "bluesky", providerId: "did:plc:abc", name: "Flo" });
+    const again = upsertUser(db, {
+      provider: "bluesky",
+      providerId: "did:plc:abc",
+      name: "Florian",
+    });
+    expect(again).toEqual({ id: first.id, name: "Florian", provider: "bluesky" });
+    expect(db.select().from(users).all()).toHaveLength(1);
+  });
+
+  it("keeps the same id at another provider apart", () => {
+    const google = upsertUser(db, { provider: "google", providerId: "42", name: "A" });
+    const bluesky = upsertUser(db, { provider: "bluesky", providerId: "42", name: "B" });
+    expect(google.id).not.toBe(bluesky.id);
   });
 });

@@ -1,0 +1,25 @@
+import { createError, type RequestEvent } from "nuxt/server";
+import { eq } from "drizzle-orm";
+import { upsertUser, type Account } from "../db/users";
+import { users } from "../db/schema";
+
+/** Signs in the user of an account, creating them on their first login. */
+export async function signIn(event: RequestEvent, account: Account) {
+  const user = upsertUser(useDb(), account);
+  await setUserSession(event, { user, loggedInAt: Date.now() });
+  return user;
+}
+
+/**
+ * The signed-in user, or 401. Checked against the database, so a deleted account's cookie opens
+ * nothing.
+ */
+export async function requireUser(event: RequestEvent) {
+  const { user } = await requireUserSession(event);
+  const found = useDb().select().from(users).where(eq(users.id, user.id)).get();
+  if (!found) {
+    await clearUserSession(event);
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  return found;
+}

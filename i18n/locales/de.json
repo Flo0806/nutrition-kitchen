@@ -131,5 +131,23 @@
     "badge": "Eigener Rohstoff",
     "edit": "{name} bearbeiten",
     "fromSearch": "„{query}“ als eigenen Rohstoff anlegen"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "menu": "Konto von {name}",
+    "title": "Anmelden",
+    "intro": "Ein Konto brauchen Sie nur, um Rezepte zu speichern und zu teilen. Wir speichern dafür Ihren Namen und eine Kennung Ihres Kontos, keine E-Mail-Adresse.",
+    "google": "Mit Google anmelden",
+    "bluesky": "Mit Bluesky anmelden",
+    "handle": "Ihr Bluesky-Name",
+    "handlePlaceholder": "name.bsky.social",
+    "handleRequired": "Bitte Ihren Bluesky-Namen eingeben.",
+    "failed": {
+      "google": "Die Anmeldung mit Google hat nicht geklappt. Bitte versuchen Sie es noch einmal.",
+      "bluesky": "Die Anmeldung mit Bluesky hat nicht geklappt. Prüfen Sie Ihren Bluesky-Namen und versuchen Sie es noch einmal."
+    },
+    "signedInAs": "Sie sind angemeldet als {name}.",
+    "back": "Zurück zum Rezept"
   }
 }

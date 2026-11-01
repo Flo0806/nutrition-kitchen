@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ["@nuxt/ui", "@nuxtjs/i18n", "nuxt-spyglass"],
+  modules: ["@nuxt/ui", "@nuxtjs/i18n", "nuxt-auth-utils", "nuxt-spyglass"],
   css: ["~/assets/css/main.css"],
   // Light only: the label is printed matter and must look the same on every screen.
   ui: { colorMode: false },
@@ -14,9 +14,22 @@ export default defineNuxtConfig({
     ],
     detectBrowserLanguage: { useCookie: true, cookieKey: "locale", fallbackLocale: "de" },
   },
+  auth: { atproto: true },
   runtimeConfig: {
     // NUXT_DATABASE_PATH; in the Docker image .data is the volume.
     databasePath: ".data/nutrition-kitchen.sqlite",
+    // Declared so NUXT_SESSION_COOKIE_SECURE can turn it off for the http-only e2e server.
+    session: { cookie: { secure: true } },
+    oauth: {
+      // NUXT_OAUTH_GOOGLE_CLIENT_ID, _CLIENT_SECRET, _REDIRECT_URL (see .env.example)
+      google: { clientId: "", clientSecret: "", redirectURL: "" },
+      bluesky: {
+        clientName: "Nutrition Kitchen",
+        clientUri: "https://nutrition.fh-softdev.de",
+        policyUri: "https://nutrition.fh-softdev.de/privacy",
+        scope: ["atproto"],
+      },
+    },
   },
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
@@ -24,6 +37,19 @@ export default defineNuxtConfig({
   nitro: { esbuild: { options: { target: "node22" } } },
   // E2E builds next to a running dev server; a shared .nuxt would break it.
   $env: {
-    e2e: { buildDir: ".nuxt-e2e", nitro: { output: { dir: ".output-e2e" } } },
+    e2e: {
+      buildDir: ".nuxt-e2e",
+      nitro: {
+        output: { dir: ".output-e2e" },
+        // Sign-in without a provider, for the tests only; no other build has this route.
+        handlers: [
+          {
+            route: "/api/test/login",
+            method: "post",
+            handler: "~~/server/test/login.post.ts",
+          },
+        ],
+      },
+    },
   },
 });
