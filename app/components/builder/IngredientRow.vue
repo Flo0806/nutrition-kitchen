@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { RecipeRow } from "~/composables/useRecipe";
+import { sourceName } from "~/utils/material";
 
 const props = defineProps<{ row: RecipeRow; index: number }>();
 const { t, locale } = useI18n();
 const { foods, failed, load } = useFoods();
-const { remove, setAmount, move } = useRecipe();
+const { remove, replace, setAmount, move } = useRecipe();
+const askMaterial = useMaterialForm();
 const declared = useDeclaration();
 const { describeGap, describeProblem } = useLabelText();
 
@@ -22,8 +24,17 @@ const gap = computed(() => {
   return found ? describeGap(food.value, found.nutrients) : "";
 });
 
-const food = computed(() => foods.value[props.row.code]);
-const name = computed(() => food.value?.name[locale.value === "en" ? "en" : "de"] ?? "");
+const code = computed(() => ("code" in props.row ? props.row.code : undefined));
+const food = computed(() => (code.value ? foods.value[code.value] : undefined));
+const name = computed(
+  () => sourceName(props.row, foods.value, locale.value === "en" ? "en" : "de") ?? "",
+);
+
+async function edit() {
+  if (!("custom" in props.row)) return;
+  const custom = await askMaterial(props.row.custom);
+  if (custom) replace(props.row.id, { custom });
+}
 const amount = computed({
   get: () => props.row.amount,
   set: (value) => setAmount(props.row.id, value ?? null),
@@ -51,10 +62,24 @@ async function moveBy(delta: number) {
       @keydown.down.prevent="moveBy(1)"
     />
     <div class="min-w-0 [grid-area:name]">
-      <p v-if="food" class="text-lg leading-snug font-bold">{{ name }}</p>
-      <p v-else-if="failed[row.code]" class="text-error">
+      <template v-if="'custom' in row">
+        <p class="text-lg leading-snug font-bold">{{ name }}</p>
+        <div class="mt-1 flex items-center gap-2">
+          <UBadge color="neutral" variant="subtle" :label="t('material.badge')" />
+          <UButton
+            icon="i-lucide-pencil"
+            color="neutral"
+            variant="ghost"
+            size="sm"
+            :aria-label="t('material.edit', { name })"
+            @click="edit"
+          />
+        </div>
+      </template>
+      <p v-else-if="food" class="text-lg leading-snug font-bold">{{ name }}</p>
+      <p v-else-if="code && failed[code]" class="text-error">
         {{ t("builder.row.loadFailed") }}
-        <UButton variant="link" :label="t('builder.row.retry')" @click="load(row.code)" />
+        <UButton variant="link" :label="t('builder.row.retry')" @click="load(code)" />
       </p>
       <USkeleton v-else class="h-6 w-48" />
     </div>

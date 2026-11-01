@@ -105,5 +105,22 @@
         "sodiumMismatch": "Salt ({salt} g) and sodium ({sodium} g) do not match: salt is sodium times 2.5."
       }
     }
+  },
+  "material": {
+    "open": "Own raw material",
+    "title": "Own raw material",
+    "editTitle": "Edit raw material",
+    "hint": "Values per 100 g, as on the data sheet. Leave empty what it does not state. The app calculates the energy itself.",
+    "name": "Name",
+    "namePlaceholder": "for example the baking agent of your supplier",
+    "nameRequired": "Please enter a name.",
+    "invalid": "Please enter a number, for example 12.5.",
+    "optional": "optional",
+    "cancel": "Cancel",
+    "add": "Add",
+    "save": "Save",
+    "badge": "Own raw material",
+    "edit": "Edit {name}",
+    "fromSearch": "Add “{query}” as own raw material"
   }
 }

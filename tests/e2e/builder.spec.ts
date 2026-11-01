@@ -30,7 +30,9 @@ test.beforeEach(async ({ page }) => {
 test("an everyday word with many foods shows a list and lets a human pick", async ({ page }) => {
   await search(page).fill("Mehl");
   const options = page.getByRole("option");
-  await expect(options).toHaveCount(8);
+  // Eight hits, then the offer to add it as an own raw material.
+  await expect(options).toHaveCount(9);
+  await expect(options.last()).toHaveText("„Mehl“ als eigenen Rohstoff anlegen");
   await expect(options.first()).toHaveText("Weizen Mehl, Type 405");
 
   await search(page).press("Enter");

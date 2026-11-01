@@ -105,5 +105,22 @@
         "sodiumMismatch": "Salz ({salt} g) und Natrium ({sodium} g) passen nicht zusammen: Salz ist Natrium mal 2,5."
       }
     }
+  },
+  "material": {
+    "open": "Eigener Rohstoff",
+    "title": "Eigener Rohstoff",
+    "editTitle": "Rohstoff bearbeiten",
+    "hint": "Werte pro 100 g, wie auf dem Datenblatt. Lassen Sie leer, was dort nicht steht. Die Energie rechnet die App selbst.",
+    "name": "Name",
+    "namePlaceholder": "zum Beispiel Backmittel von Ihrem Lieferanten",
+    "nameRequired": "Bitte einen Namen eingeben.",
+    "invalid": "Bitte eine Zahl eingeben, zum Beispiel 12,5.",
+    "optional": "freiwillig",
+    "cancel": "Abbrechen",
+    "add": "Übernehmen",
+    "save": "Speichern",
+    "badge": "Eigener Rohstoff",
+    "edit": "{name} bearbeiten",
+    "fromSearch": "„{query}“ als eigenen Rohstoff anlegen"
   }
 }

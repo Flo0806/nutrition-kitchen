@@ -1,7 +1,8 @@
 import type { LabelOptions } from "~/utils/declaration";
 import { defaultLabelOptions, parseDraft, serializeDraft } from "~/utils/draft";
+import type { Source } from "~/utils/material";
 
-export type RecipeRow = { id: number; code: string; amount: number | null };
+export type RecipeRow = Source & { id: number; amount: number | null };
 
 const storageKey = "nutrition-kitchen:draft";
 let nextId = 1;
@@ -12,11 +13,18 @@ export function useRecipe() {
   const options = useState<LabelOptions>("recipe-options", () => ({ ...defaultLabelOptions }));
   const { load } = useFoods();
 
-  function add(code: string, amount: number | null = null): RecipeRow {
-    const row = { id: nextId++, code, amount };
+  function add(source: Source, amount: number | null = null): RecipeRow {
+    const row = { ...source, id: nextId++, amount };
     rows.value.push(row);
-    load(code);
+    if ("code" in source) load(source.code);
     return row;
+  }
+
+  /** Replaces what a row is, keeping its place and amount: an edited raw material. */
+  function replace(id: number, source: Source) {
+    const index = rows.value.findIndex((row) => row.id === id);
+    const row = rows.value[index];
+    if (row) rows.value.splice(index, 1, { ...source, id, amount: row.amount });
   }
 
   function remove(id: number) {
@@ -34,7 +42,7 @@ export function useRecipe() {
     if (row) rows.value.splice(to, 0, row);
   }
 
-  return { rows, options, add, remove, setAmount, move };
+  return { rows, options, add, replace, remove, setAmount, move };
 }
 
 /**
@@ -52,7 +60,7 @@ export function useRecipeDraft() {
       localStorage.removeItem(storageKey);
       toast.add({ title: t("builder.draftBroken"), color: "warning" });
     } else if (draft && rows.value.length === 0) {
-      for (const row of draft.rows) add(row.code, row.amount);
+      for (const { amount, ...source } of draft.rows) add(source, amount);
       options.value = draft.options;
     }
     watch(

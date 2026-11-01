@@ -7,6 +7,7 @@ import {
 } from "@thereforejs/nutrition";
 import { de, en } from "@thereforejs/nutrition/locales";
 import type { FoodEntry } from "#shared/types/food";
+import { sourceValues, type Source } from "~/utils/material";
 
 export type LabelOptions = {
   pieceWeight: number | null;
@@ -14,7 +15,7 @@ export type LabelOptions = {
   referenceIntake: boolean;
 };
 
-type Row = { id: number; code: string; amount: number | null };
+type Row = Source & { id: number; amount: number | null };
 
 /** A problem the library raised, with the row it points at when it points at one. */
 export type Problem = { rowId: number | undefined; diagnostic: Diagnostic };
@@ -41,11 +42,12 @@ export function declare(
   const withoutAmount = rows.filter((row) => row.amount === null).map((row) => row.id);
   const counted = rows.filter((row) => row.amount !== null);
   if (counted.length === 0) return { state: "empty" };
-  if (counted.some((row) => !foods[row.code])) return { state: "loading" };
+  const values = counted.map((row) => sourceValues(row, foods));
+  if (values.some((value) => value === undefined)) return { state: "loading" };
 
-  const ingredients = counted.map((row) => ({
+  const ingredients = counted.map((row, index) => ({
     amount: row.amount ?? 0,
-    per100g: foods[row.code]?.per100g ?? {},
+    per100g: values[index] ?? {},
   }));
   const rowAt = (path: string) => {
     const index = /^ingredients\[(\d+)\]/.exec(path)?.[1];

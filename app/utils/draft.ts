@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { foodCode } from "#shared/utils/foodCode";
 import type { LabelOptions } from "~/utils/declaration";
+import { materialNutrients, type Source } from "~/utils/material";
 
 /** Grams; one tonne is far beyond any kitchen and keeps typos out. */
 export const maxAmount = 1_000_000;
@@ -13,9 +14,23 @@ export const defaultLabelOptions: LabelOptions = {
 
 const grams = z.number().nonnegative().max(maxAmount);
 
+const decimalText = z.string().regex(/^\d+(\.\d+)?$/);
+const custom = z.object({
+  name: z.string().trim().min(1).max(120),
+  per100g: z.object(
+    Object.fromEntries(materialNutrients.map((key) => [key, decimalText.nullable()])) as Record<
+      (typeof materialNutrients)[number],
+      z.ZodNullable<typeof decimalText>
+    >,
+  ),
+});
+const amount = grams.nullable();
+
 const draftSchema = z.object({
   version: z.literal(1),
-  rows: z.array(z.object({ code: foodCode, amount: grams.nullable() })).max(200),
+  rows: z
+    .array(z.union([z.object({ code: foodCode, amount }), z.object({ custom, amount })]))
+    .max(200),
   options: z
     .object({
       pieceWeight: grams.nullable(),
@@ -30,10 +45,16 @@ const draftSchema = z.object({
 export type Draft = z.infer<typeof draftSchema>;
 export type DraftRow = Draft["rows"][number];
 
-export function serializeDraft({ rows, options }: Omit<Draft, "version">): string {
+type Row = Source & { amount: number | null };
+
+export function serializeDraft({ rows, options }: { rows: Row[]; options: LabelOptions }): string {
   return JSON.stringify({
     version: 1,
-    rows: rows.map(({ code, amount }) => ({ code, amount })),
+    rows: rows.map((row) =>
+      "custom" in row
+        ? { custom: row.custom, amount: row.amount }
+        : { code: row.code, amount: row.amount },
+    ),
     options: {
       pieceWeight: options.pieceWeight,
       voluntary: options.voluntary,

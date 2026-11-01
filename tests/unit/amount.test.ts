@@ -1,6 +1,6 @@
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { formatAmount, parseAmount } from "../../app/utils/amount";
+import { formatAmount, parseAmount, parseDecimal } from "../../app/utils/amount";
 import { maxAmount } from "../../app/utils/draft";
 
 const languages = ["de", "en"] as const;
@@ -60,5 +60,42 @@ describe("formatAmount", () => {
     expect(formatAmount(1234.5, "de")).toBe("1234,5");
     expect(formatAmount(1234.5, "en")).toBe("1234.5");
     expect(formatAmount(null, "de")).toBe("");
+  });
+});
+
+describe("parseDecimal", () => {
+  it.each([
+    ["12,5", "12.5"],
+    ["012,50", "12.5"],
+    ["0,08", "0.08"],
+    ["40,2", "40.2"],
+    ["1.250,5", "1250.5"],
+    ["", null],
+    ["1e3", "invalid"],
+    ["9".repeat(25), "invalid"],
+  ])("reads %j in German as %j", (text, expected) => {
+    expect(parseDecimal(text, "de")).toBe(expected);
+  });
+
+  it("only ever answers plain decimal text", () => {
+    fc.assert(
+      fc.property(fc.string(), fc.constantFrom(...languages), (text, language) => {
+        const result = parseDecimal(text, language);
+        return result === null || result === "invalid" || /^\d+(\.\d+)?$/.test(result);
+      }),
+    );
+  });
+
+  // Built as strings on both sides, so no float arithmetic hides an error.
+  it("keeps every value with up to three decimals exactly", () => {
+    fc.assert(
+      fc.property(fc.integer({ min: 0, max: 100_000 }), (thousandths) => {
+        const digits = String(thousandths).padStart(4, "0");
+        const [whole, fraction] = [digits.slice(0, -3), digits.slice(-3)];
+        const trimmed = fraction.replace(/0+$/, "");
+        const expected = `${Number(whole)}${trimmed ? `.${trimmed}` : ""}`;
+        return parseDecimal(`${whole},${fraction}`, "de") === expected;
+      }),
+    );
   });
 });

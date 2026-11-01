@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Hit } from "@thereforejs/food-finder/de";
 
-const emit = defineEmits<{ pick: [code: string] }>();
+const emit = defineEmits<{ pick: [code: string]; custom: [name: string] }>();
 const { t } = useI18n();
 const { prepare, search } = useFoodFinder();
 
@@ -11,6 +11,11 @@ const active = ref(-1);
 const open = ref(false);
 const loading = ref(false);
 const listId = useId();
+
+// The last option is always "add as own raw material": partial hits make an empty list rare, so an
+// offer only for no hits would hardly ever show.
+const customIndex = computed(() => hits.value.length);
+const optionId = (index: number) => `${listId}-${index}`;
 
 // Searches can overtake each other while the names load; only the newest may show.
 let latest = 0;
@@ -25,28 +30,37 @@ watch(query, async (value) => {
   open.value = value.trim() !== "";
 });
 
-function pick(hit: Hit) {
-  emit("pick", hit.code);
+function reset() {
   query.value = "";
   hits.value = [];
   open.value = false;
 }
 
+function choose(index: number) {
+  const hit = hits.value[index];
+  if (hit) emit("pick", hit.code);
+  else emit("custom", query.value.trim());
+  reset();
+}
+
 async function onEnter() {
-  const chosen = hits.value[active.value];
-  if (open.value && chosen) return pick(chosen);
+  if (open.value && active.value >= 0) return choose(active.value);
+  if (!query.value.trim()) return;
   // Enter may come before the search of the last keystroke has answered.
   const found = await search(query.value);
   const hit = directHit(found);
-  if (hit) return pick(hit);
+  if (hit) {
+    emit("pick", hit.code);
+    return reset();
+  }
   hits.value = found;
-  open.value = found.length > 0;
-  active.value = found.length > 0 ? 0 : -1;
+  open.value = true;
+  active.value = 0;
 }
 
 function step(delta: number) {
-  const count = hits.value.length;
-  if (count === 0) return;
+  if (!query.value.trim()) return;
+  const count = hits.value.length + 1;
   open.value = true;
   active.value = (active.value + delta + count) % count;
 }
@@ -67,7 +81,7 @@ function step(delta: number) {
       aria-autocomplete="list"
       :aria-expanded="open"
       :aria-controls="listId"
-      :aria-activedescendant="open && active >= 0 ? `${listId}-${active}` : undefined"
+      :aria-activedescendant="open && active >= 0 ? optionId(active) : undefined"
       @focus="prepare()"
       @blur="open = false"
       @keydown.down.prevent="step(1)"
@@ -75,28 +89,38 @@ function step(delta: number) {
       @keydown.enter.prevent="onEnter"
       @keydown.esc="open = false"
     />
-    <ul
-      v-show="open && hits.length > 0"
-      :id="listId"
-      role="listbox"
-      :aria-label="t('builder.search.label')"
+    <div
+      v-show="open && !loading"
       class="absolute inset-x-0 z-10 mt-2 overflow-hidden rounded-md border border-default bg-default shadow-lg"
     >
-      <li
-        v-for="(hit, index) in hits"
-        :id="`${listId}-${index}`"
-        :key="hit.code"
-        role="option"
-        :aria-selected="index === active"
-        class="cursor-pointer px-4 py-3 text-lg aria-selected:bg-primary/10"
-        @mousedown.prevent="pick(hit)"
-        @mousemove="active = index"
-      >
-        {{ hit.name }}
-      </li>
-    </ul>
-    <p v-if="open && !loading && hits.length === 0" role="status" class="mt-2 text-muted">
-      {{ t("builder.search.noHits", { query }) }}
-    </p>
+      <p v-if="hits.length === 0" role="status" class="px-4 pt-3 text-muted">
+        {{ t("builder.search.noHits", { query: query.trim() }) }}
+      </p>
+      <ul :id="listId" role="listbox" :aria-label="t('builder.search.label')">
+        <li
+          v-for="(hit, index) in hits"
+          :id="optionId(index)"
+          :key="hit.code"
+          role="option"
+          :aria-selected="index === active"
+          class="cursor-pointer px-4 py-3 text-lg aria-selected:bg-primary/10"
+          @mousedown.prevent="choose(index)"
+          @mousemove="active = index"
+        >
+          {{ hit.name }}
+        </li>
+        <li
+          :id="optionId(customIndex)"
+          role="option"
+          :aria-selected="customIndex === active"
+          class="flex cursor-pointer items-center gap-2 border-t border-default px-4 py-3 text-lg text-primary aria-selected:bg-primary/10"
+          @mousedown.prevent="choose(customIndex)"
+          @mousemove="active = customIndex"
+        >
+          <UIcon name="i-lucide-plus" aria-hidden="true" />
+          {{ t("material.fromSearch", { query: query.trim() }) }}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { labelLocales, labelTable, labelText, type LabelLanguage } from "~/utils/labelText";
+import { sourceName } from "~/utils/material";
 
 const { t, locale } = useI18n();
 const declared = useDeclaration();
@@ -21,7 +22,7 @@ const table = computed(() =>
 
 const rowName = (id: number) => {
   const row = rows.value.find((candidate) => candidate.id === id);
-  return (row && foods.value[row.code]?.name[uiLanguage.value]) ?? "";
+  return (row && sourceName(row, foods.value, uiLanguage.value)) ?? "";
 };
 const rowNumber = (id: number) => rows.value.findIndex((row) => row.id === id) + 1;
 
@@ -94,7 +95,11 @@ async function copy() {
             </li>
           </ul>
         </div>
-        <p v-else class="rounded-md border border-dashed border-default p-6 text-muted">
+        <!-- About the height of a label, so nothing below jumps when the values arrive. -->
+        <p
+          v-else
+          class="flex min-h-96 items-center justify-center rounded-md border border-dashed border-default p-6 text-center text-muted"
+        >
           {{ declared.state === "loading" ? t("label.loading") : t("label.empty") }}
         </p>
       </Transition>

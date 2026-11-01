@@ -1,7 +1,9 @@
 import type { Page } from "@playwright/test";
 
+type Custom = { name: string; per100g: Record<string, string | null> };
+
 type Draft = {
-  rows: { code: string; amount: number | null }[];
+  rows: (({ code: string } | { custom: Custom }) & { amount: number | null })[];
   options?: { pieceWeight: number | null; voluntary: string[]; referenceIntake: boolean };
 };
 
