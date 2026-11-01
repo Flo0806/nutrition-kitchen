@@ -28,6 +28,8 @@ export default defineNuxtConfig({
         clientUri: "https://nutrition.fh-softdev.de",
         policyUri: "https://nutrition.fh-softdev.de/privacy",
         scope: ["atproto"],
+        // Without it the metadata names its own path as the way back, and Bluesky refuses the login.
+        redirectUris: ["/auth/bluesky"],
       },
     },
   },

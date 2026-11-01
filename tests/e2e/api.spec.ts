@@ -19,3 +19,14 @@ test("answers 400 for something that is no code", async ({ request }) => {
     expect((await request.get(`/api/foods/${code}`)).status(), code).toBe(400);
   }
 });
+
+test("the Bluesky client metadata sends people back to the login route", async ({ request }) => {
+  // What Bluesky fetches in production; behind the proxy the origin comes from its headers.
+  const response = await request.get("/bluesky/client-metadata.json", {
+    headers: { host: "nutrition.example", "x-forwarded-proto": "https" },
+  });
+  expect(response.status()).toBe(200);
+  const metadata = (await response.json()) as { client_id: string; redirect_uris: string[] };
+  expect(metadata.client_id).toBe("https://nutrition.example/bluesky/client-metadata.json");
+  expect(metadata.redirect_uris).toEqual(["https://nutrition.example/auth/bluesky"]);
+});
