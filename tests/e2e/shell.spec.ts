@@ -89,3 +89,39 @@ test("legal pages name the operator and hold no placeholders", async ({ page }) 
     }
   }
 });
+
+test("every icon, the manifest and the link preview the head names are served", async ({
+  page,
+}) => {
+  await openReady(page, "/");
+  const hrefs = await page
+    .locator('head link[rel="icon"], head link[rel="apple-touch-icon"], head link[rel="manifest"]')
+    .evaluateAll((links) => links.map((link) => link.getAttribute("href") ?? ""));
+  expect(hrefs.sort()).toEqual([
+    "/apple-touch-icon.png",
+    "/favicon.ico",
+    "/favicon.svg",
+    "/site.webmanifest",
+  ]);
+  const types: Record<string, RegExp> = {
+    "/apple-touch-icon.png": /^image\/png/,
+    "/favicon.ico": /^image\/(x-icon|vnd\.microsoft\.icon)/,
+    "/favicon.svg": /^image\/svg\+xml/,
+    "/site.webmanifest": /json|manifest/,
+  };
+  for (const href of hrefs) {
+    const response = await page.request.get(href);
+    expect(response.status(), href).toBe(200);
+    expect(response.headers()["content-type"], href).toMatch(types[href]!);
+  }
+  const manifest = (await (await page.request.get("/site.webmanifest")).json()) as {
+    icons: { src: string }[];
+  };
+  for (const { src } of manifest.icons)
+    expect((await page.request.get(src)).status(), src).toBe(200);
+
+  const preview = await page.locator('meta[property="og:image"]').getAttribute("content");
+  expect(preview).toBe(new URL("/og.png", page.url()).href);
+  const image = await page.request.get(preview!);
+  expect(image.headers()["content-type"]).toBe("image/png");
+});

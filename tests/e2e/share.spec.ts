@@ -69,6 +69,11 @@ test("a shared recipe is readable by anyone with its label, and ending the share
   await expect(shared.getByRole("switch")).toHaveCount(0);
   await expect(shared.locator("body")).not.toContainText("Owner Tester");
   await expect(shared.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+  // A link shared in a messenger shows the recipe's title.
+  await expect(shared.locator('meta[property="og:title"]')).toHaveAttribute(
+    "content",
+    "Geteilte Brötchen",
+  );
 
   await page.getByRole("button", { name: "Geteilte Brötchen teilen" }).click();
   await page.getByRole("dialog").getByRole("button", { name: "Link beenden" }).click();

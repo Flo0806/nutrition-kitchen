@@ -36,7 +36,7 @@ onMounted(() => {
 
 useHead({ title: shared.title });
 // Shared with whoever has the link, not with search engines.
-useSeoMeta({ robots: "noindex, nofollow" });
+useSeoMeta({ robots: "noindex, nofollow", ogTitle: shared.title });
 
 const language = computed(() => (locale.value === "en" ? "en" : "de"));
 const busy = ref(false);
