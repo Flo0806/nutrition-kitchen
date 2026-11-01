@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { RecipeRow } from "~/composables/useRecipe";
-import { sourceName } from "~/utils/material";
+import { sourceName } from "#shared/utils/material";
 
 const props = defineProps<{ row: RecipeRow; index: number }>();
 const { t, n, locale } = useI18n();

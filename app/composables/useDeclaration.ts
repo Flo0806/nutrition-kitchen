@@ -1,5 +1,5 @@
 import type { ComputedRef, InjectionKey } from "vue";
-import { declare, type Declared } from "~/utils/declaration";
+import { declareRecipe, type Declared } from "#shared/utils/declaration";
 
 const key: InjectionKey<ComputedRef<Declared>> = Symbol("declaration");
 
@@ -7,7 +7,7 @@ const key: InjectionKey<ComputedRef<Declared>> = Symbol("declaration");
 export function provideDeclaration() {
   const { rows, options } = useRecipe();
   const { foods } = useFoods();
-  const declared = computed(() => declare(rows.value, foods.value, options.value));
+  const declared = computed(() => declareRecipe(rows.value, foods.value, options.value));
   provide(key, declared);
   return declared;
 }

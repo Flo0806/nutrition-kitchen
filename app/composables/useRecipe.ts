@@ -1,5 +1,6 @@
-import type { RecipeOptions } from "~/utils/declaration";
-import { defaultRecipeOptions, parseDraft, serializeDraft } from "~/utils/draft";
+import type { RecipeOptions } from "#shared/utils/declaration";
+import { defaultRecipeOptions } from "#shared/utils/recipe";
+import { parseDraft, serializeDraft, type SavedRecipe } from "~/utils/draft";
 import type { Source } from "#shared/utils/source";
 
 export type RecipeRow = Source & { id: number; amount: number | null };
@@ -7,10 +8,16 @@ export type RecipeRow = Source & { id: number; amount: number | null };
 const storageKey = "nutrition-kitchen:draft";
 let nextId = 1;
 
-/** The recipe being edited: one row per ingredient in the order of the list, and its label options. */
+type Contents = { rows: (Source & { amount: number | null })[]; options: RecipeOptions };
+
+/**
+ * The recipe being edited: one row per ingredient in the order of the list, its label options, and
+ * the saved recipe it came from, if any.
+ */
 export function useRecipe() {
   const rows = useState<RecipeRow[]>("recipe-rows", () => []);
   const options = useState<RecipeOptions>("recipe-options", () => ({ ...defaultRecipeOptions }));
+  const saved = useState<SavedRecipe | null>("recipe-saved", () => null);
   const { load } = useFoods();
 
   function add(source: Source, amount: number | null = null): RecipeRow {
@@ -42,7 +49,19 @@ export function useRecipe() {
     if (row) rows.value.splice(to, 0, row);
   }
 
-  return { rows, options, add, replace, remove, setAmount, move };
+  /** Puts a whole recipe into the builder, replacing what was there. */
+  function open(contents: Contents, from: SavedRecipe | null) {
+    rows.value = [];
+    for (const { amount, ...source } of contents.rows) add(source, amount);
+    options.value = { ...contents.options };
+    saved.value = from;
+  }
+
+  function startNew() {
+    open({ rows: [], options: defaultRecipeOptions }, null);
+  }
+
+  return { rows, options, saved, add, replace, remove, setAmount, move, open, startNew };
 }
 
 /**
@@ -50,7 +69,7 @@ export function useRecipe() {
  * component only.
  */
 export function useRecipeDraft() {
-  const { rows, options, add } = useRecipe();
+  const { rows, options, saved, open } = useRecipe();
   const toast = useToast();
   const { t } = useI18n();
 
@@ -60,15 +79,14 @@ export function useRecipeDraft() {
       localStorage.removeItem(storageKey);
       toast.add({ title: t("builder.draftBroken"), color: "warning" });
     } else if (draft && rows.value.length === 0) {
-      for (const { amount, ...source } of draft.rows) add(source, amount);
-      options.value = draft.options;
+      open(draft, draft.saved);
     }
     watch(
-      [rows, options],
+      [rows, options, saved],
       () =>
         localStorage.setItem(
           storageKey,
-          serializeDraft({ rows: rows.value, options: options.value }),
+          serializeDraft({ rows: rows.value, options: options.value, saved: saved.value }),
         ),
       { deep: true },
     );

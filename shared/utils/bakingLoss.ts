@@ -1,4 +1,4 @@
-import type { Source } from "#shared/utils/source";
+import type { Source } from "./source";
 
 type Row = Source & { id: number; amount: number | null };
 

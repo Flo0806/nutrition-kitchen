@@ -1,6 +1,6 @@
 import { C214200, N110000, R111000, R459000 } from "@thereforejs/foods";
 import { describe, expect, it } from "vitest";
-import { declare, explainGap, type RecipeOptions } from "../../app/utils/declaration";
+import { declareRecipe, explainGap, type RecipeOptions } from "../../shared/utils/declaration";
 import type { FoodEntry } from "../../shared/types/food";
 
 const entry = ({ code, name, per100g, marks }: FoodEntry): FoodEntry => ({
@@ -31,7 +31,7 @@ const rolls = [
 
 describe("declare", () => {
   it("gives the README declaration of the bread rolls", () => {
-    const declared = declare(rolls, foods, options);
+    const declared = declareRecipe(rolls, foods, options);
     if (declared.state !== "declared") throw new Error(declared.state);
     const { per100g, perPiece } = declared.result;
     expect(per100g.energy.kJ.text["de-DE"]).toBe(nb("1016 kJ"));
@@ -42,7 +42,7 @@ describe("declare", () => {
   });
 
   it("names the gaps at the row they belong to", () => {
-    const declared = declare(rolls, foods, options);
+    const declared = declareRecipe(rolls, foods, options);
     if (declared.state !== "declared") throw new Error(declared.state);
     expect(declared.gaps).toEqual([
       { rowId: 3, nutrients: ["polyols", "alcohol", "organicAcids"] },
@@ -50,19 +50,23 @@ describe("declare", () => {
   });
 
   it("leaves rows without an amount out and names them", () => {
-    const declared = declare([...rolls, { id: 5, code: "C214200", amount: null }], foods, options);
+    const declared = declareRecipe(
+      [...rolls, { id: 5, code: "C214200", amount: null }],
+      foods,
+      options,
+    );
     expect(declared).toMatchObject({ state: "declared", withoutAmount: [5] });
   });
 
   it("waits for values that are still loading", () => {
-    expect(declare([{ id: 1, code: "Q630000", amount: 10 }], foods, options)).toEqual({
+    expect(declareRecipe([{ id: 1, code: "Q630000", amount: 10 }], foods, options)).toEqual({
       state: "loading",
     });
   });
 
   it("is empty without a counted row", () => {
-    expect(declare([], foods, options)).toEqual({ state: "empty" });
-    expect(declare([{ id: 1, code: "C214200", amount: null }], foods, options)).toEqual({
+    expect(declareRecipe([], foods, options)).toEqual({ state: "empty" });
+    expect(declareRecipe([{ id: 1, code: "C214200", amount: null }], foods, options)).toEqual({
       state: "empty",
     });
   });
@@ -74,7 +78,7 @@ describe("declare", () => {
       ...foods,
       X: { ...flour, code: "X", per100g: { ...flour.per100g, carbohydrate: "20", sugars: "35" } },
     };
-    const declared = declare(
+    const declared = declareRecipe(
       [
         { id: 7, code: "C214200", amount: null },
         { id: 8, code: "C214200", amount: 100 },
@@ -91,7 +95,7 @@ describe("declare", () => {
   });
 
   it("refuses a recipe of 0 g without pointing at a row", () => {
-    const declared = declare([{ id: 1, code: "C214200", amount: 0 }], foods, options);
+    const declared = declareRecipe([{ id: 1, code: "C214200", amount: 0 }], foods, options);
     expect(declared).toMatchObject({
       state: "refused",
       problems: [{ rowId: undefined, diagnostic: { code: "weight.zero" } }],
@@ -104,15 +108,15 @@ describe("declare with a baking loss", () => {
   const typed = rolls.map((row) => (row.id === 2 ? { ...row, amount: 600 } : row));
 
   it("gives the same declaration as the rolls with 420 g water", () => {
-    const baked = declare(typed, foods, { ...options, bakingLoss: 180 });
-    const direct = declare(rolls, foods, options);
+    const baked = declareRecipe(typed, foods, { ...options, bakingLoss: 180 });
+    const direct = declareRecipe(rolls, foods, options);
     if (baked.state !== "declared" || direct.state !== "declared") throw new Error("not declared");
     expect(baked.result).toEqual(direct.result);
     expect(baked.baked).toEqual([{ rowId: 2, amount: 420 }]);
   });
 
   it("refuses more loss than water before calculating", () => {
-    expect(declare(typed, foods, { ...options, bakingLoss: 601 })).toMatchObject({
+    expect(declareRecipe(typed, foods, { ...options, bakingLoss: 601 })).toMatchObject({
       state: "bakingLoss",
       problem: "exceedsWater",
       water: 600,

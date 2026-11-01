@@ -1,4 +1,4 @@
-import { maxAmount } from "~/utils/draft";
+import { maxAmount } from "#shared/utils/recipe";
 
 type Language = "de" | "en";
 

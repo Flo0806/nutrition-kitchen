@@ -1,6 +1,6 @@
 import type { Diagnostic, NutrientKey } from "@thereforejs/nutrition";
 import type { FoodEntry } from "#shared/types/food";
-import { explainGap, type ReportedNutrient } from "~/utils/declaration";
+import { explainGap, type ReportedNutrient } from "#shared/utils/declaration";
 import { labelLocales } from "~/utils/labelText";
 
 /** Report and refusals as plain sentences, in the language of the interface. */

@@ -5,7 +5,7 @@ import {
   type CustomMaterial,
   type MaterialNutrient,
 } from "#shared/utils/source";
-import { checkMaterial } from "~/utils/material";
+import { checkMaterial } from "#shared/utils/material";
 import { labelLocales } from "~/utils/labelText";
 
 const props = defineProps<{ initial?: { name?: string; per100g?: CustomMaterial["per100g"] } }>();

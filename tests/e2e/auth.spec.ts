@@ -4,7 +4,7 @@ import { openReady } from "./ready";
 
 test("signed out, the header offers to sign in and the account api refuses", async ({ page }) => {
   await openReady(page, "/");
-  await page.getByRole("link", { name: "Anmelden" }).click();
+  await page.getByRole("link", { name: "Anmelden", exact: true }).click();
   await expect(page).toHaveURL(/\/login$/);
   await expect(page.getByRole("link", { name: "Mit Google anmelden" })).toHaveAttribute(
     "href",
@@ -14,7 +14,7 @@ test("signed out, the header offers to sign in and the account api refuses", asy
 });
 
 test("signed in, the header shows who it is, and signing out ends it", async ({ page }) => {
-  const user = await signInAs(page, "Flo Tester");
+  const user = await signInAs(page);
   await openReady(page, "/");
   const menu = page.getByRole("button", { name: "Konto von Flo Tester" });
   await expect(menu).toBeVisible();
@@ -27,13 +27,13 @@ test("signed in, the header shows who it is, and signing out ends it", async ({ 
 
   await menu.click();
   await page.getByRole("menuitem", { name: "Abmelden" }).click();
-  await expect(page.getByRole("link", { name: "Anmelden" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Anmelden", exact: true })).toBeVisible();
   expect((await page.request.get("/api/me")).status()).toBe(401);
 });
 
 test("a second login is the same user, under the name the provider gives now", async ({ page }) => {
-  const first = await signInAs(page, "Old Name", "e2e-same");
-  const again = await signInAs(page, "New Name", "e2e-same");
+  const first = await signInAs(page, "Old Name", "same");
+  const again = await signInAs(page, "New Name", "same");
   expect(again).toEqual({ ...first, name: "New Name" });
 });
 
@@ -58,7 +58,7 @@ test("a failed login says so on the login page", async ({ page }) => {
 });
 
 test("the login page knows a signed-in user", async ({ page }) => {
-  await signInAs(page, "Flo Tester");
+  await signInAs(page);
   await openReady(page, "/login");
   await expect(page.getByText("Sie sind angemeldet als Flo Tester.")).toBeVisible();
 });

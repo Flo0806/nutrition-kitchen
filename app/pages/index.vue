@@ -22,6 +22,7 @@ async function addCustom(name = "") {
   <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,28rem)]">
     <div class="print:hidden">
       <h1 class="text-4xl leading-tight font-bold">{{ $t("app.tagline") }}</h1>
+      <BookRecipeBar class="mt-6" />
       <BuilderFoodSearch class="mt-8" @pick="(code) => addAndFocus({ code })" @custom="addCustom" />
       <UButton
         class="mt-3"

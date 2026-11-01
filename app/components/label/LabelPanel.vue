@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { labelLocales, labelTable, labelText, type LabelLanguage } from "~/utils/labelText";
-import { sourceName } from "~/utils/material";
+import { sourceName } from "#shared/utils/material";
 
 const { t, locale } = useI18n();
 const declared = useDeclaration();

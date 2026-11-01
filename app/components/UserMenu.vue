@@ -4,6 +4,7 @@ const { loggedIn, user, clear } = useUserSession();
 
 const items = computed(() => [
   [{ label: user.value?.name ?? "", type: "label" as const }],
+  [{ label: t("book.title"), icon: "i-lucide-book-open", to: "/book" }],
   [{ label: t("auth.logout"), icon: "i-lucide-log-out", onSelect: () => clear() }],
 ]);
 </script>

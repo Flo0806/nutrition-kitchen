@@ -1,6 +1,7 @@
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { defaultRecipeOptions, maxAmount, parseDraft, serializeDraft } from "../../app/utils/draft";
+import { parseDraft, serializeDraft } from "../../app/utils/draft";
+import { defaultRecipeOptions, maxAmount } from "../../shared/utils/recipe";
 
 const grams = fc.double({ min: 0, max: maxAmount, noNaN: true }).map((g) => (g === 0 ? 0 : g));
 const amount = fc.option(grams, { nil: null });
@@ -19,7 +20,18 @@ const custom = fc.record({
     fibre: decimalText,
   }),
 });
+const saved = fc.option(
+  fc.record({
+    id: fc.integer({ min: 1, max: 1_000_000 }),
+    title: fc.string({ minLength: 1, maxLength: 120 }).filter((t) => t.trim() === t && t !== ""),
+    instructions: fc.string({ maxLength: 200 }).map((t) => t.trim()),
+    image: fc.option(fc.stringMatching(/^[a-z0-9]{16}\.webp$/), { nil: null }),
+  }),
+  { nil: null },
+);
+
 const draft = fc.record({
+  saved,
   rows: fc.array(
     fc.oneof(
       fc.record({ code: fc.stringMatching(/^[A-Z][A-Z0-9_]{6,7}$/), amount }),
@@ -48,9 +60,12 @@ describe("draft", () => {
 
   it("drops extra fields of a row", () => {
     const rows = [{ code: "C214200", amount: 500, name: "Mehl" }];
-    expect(parseDraft(serializeDraft({ rows, options: defaultRecipeOptions }))).toEqual({
+    expect(
+      parseDraft(serializeDraft({ rows, options: defaultRecipeOptions, saved: null })),
+    ).toEqual({
       rows: [{ code: "C214200", amount: 500 }],
       options: defaultRecipeOptions,
+      saved: null,
     });
   });
 
@@ -59,6 +74,7 @@ describe("draft", () => {
     expect(parseDraft(old)).toEqual({
       rows: [{ code: "C214200", amount: 500 }],
       options: defaultRecipeOptions,
+      saved: null,
     });
   });
 

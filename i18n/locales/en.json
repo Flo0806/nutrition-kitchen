@@ -149,5 +149,49 @@
     },
     "signedInAs": "You are signed in as {name}.",
     "back": "Back to the recipe"
+  },
+  "book": {
+    "title": "My recipe book",
+    "empty": "No recipes yet. Build one and save it.",
+    "open": "Open",
+    "delete": "Delete",
+    "deleteNamed": "Delete {title}",
+    "deleteConfirm": "Delete “{title}”?",
+    "deleteFinal": "The recipe and its photo will be gone.",
+    "deleted": "Deleted.",
+    "replaceConfirm": "The recipe in the editor is replaced by “{title}”.",
+    "per100g": "per 100 g",
+    "noEnergy": "No label yet: amounts are missing.",
+    "openNamed": "Open {title}"
+  },
+  "save": {
+    "button": "Save",
+    "title": "Save recipe",
+    "updateTitle": "Update recipe",
+    "name": "Title",
+    "titleRequired": "Please enter a title.",
+    "instructions": "Method",
+    "optional": "optional",
+    "photo": "Photo",
+    "photoHint": "JPEG, PNG or WebP, up to 8 MB.",
+    "choosePhoto": "Choose a photo",
+    "currentPhoto": "Current photo",
+    "removePhoto": "Remove photo",
+    "saved": "Saved.",
+    "needsLogin": "Sign in to save",
+    "editing": "Recipe:",
+    "new": "New recipe",
+    "newConfirm": "Start with an empty recipe?",
+    "newKeeps": "“{title}” stays in your recipe book as last saved."
+  },
+  "confirm": {
+    "cancel": "Cancel"
+  },
+  "errors": {
+    "signedOut": "You are no longer signed in. Please sign in again.",
+    "pictureTooLarge": "The photo is larger than 8 MB.",
+    "pictureFormat": "Only photos as JPEG, PNG or WebP.",
+    "tooMany": "Too many photos in a short time. Please try again later.",
+    "general": "That did not work. Please try again."
   }
 }

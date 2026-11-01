@@ -34,13 +34,19 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   // The server runs on Node 22; Nitro's default es2019 target warns about BigInt literals in deps.
-  nitro: { esbuild: { options: { target: "node22" } } },
+  nitro: {
+    esbuild: { options: { target: "node22" } },
+    // Photos of recipes, next to the database in .data (the volume in the Docker image).
+    storage: { pictures: { driver: "fs", base: ".data/pictures" } },
+    devStorage: { pictures: { driver: "fs", base: ".data/pictures" } },
+  },
   // E2E builds next to a running dev server; a shared .nuxt would break it.
   $env: {
     e2e: {
       buildDir: ".nuxt-e2e",
       nitro: {
         output: { dir: ".output-e2e" },
+        storage: { pictures: { driver: "fs", base: ".data/e2e/pictures" } },
         // Sign-in without a provider, for the tests only; no other build has this route.
         handlers: [
           {

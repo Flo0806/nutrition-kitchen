@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { formatAmount, parseAmount } from "~/utils/amount";
-import { maxAmount } from "~/utils/draft";
+import { maxAmount } from "#shared/utils/recipe";
 
 const props = defineProps<{ id: string; label: string; disabled?: boolean }>();
 const amount = defineModel<number | null>({ required: true });

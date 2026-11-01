@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkMaterial } from "../../app/utils/material";
+import { checkMaterial } from "../../shared/utils/material";
 import type { CustomMaterial } from "../../shared/utils/source";
 
 const sheet = (values: Partial<CustomMaterial["per100g"]>): CustomMaterial["per100g"] => ({

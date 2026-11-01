@@ -6,10 +6,10 @@ import {
   type Voluntary,
 } from "@thereforejs/nutrition";
 import { de, en } from "@thereforejs/nutrition/locales";
-import type { FoodEntry } from "#shared/types/food";
-import { takeBakingLoss } from "~/utils/bakingLoss";
-import type { Source } from "#shared/utils/source";
-import { sourceValues } from "~/utils/material";
+import type { FoodEntry } from "../types/food";
+import { takeBakingLoss } from "./bakingLoss";
+import type { Source } from "./source";
+import { sourceValues } from "./material";
 
 export type RecipeOptions = {
   pieceWeight: number | null;
@@ -51,7 +51,7 @@ export type Declared =
  * The declaration of the recipe. Rows without an amount stay out and are named, so the label never
  * silently shows less than the list.
  */
-export function declare(
+export function declareRecipe(
   rows: Row[],
   foods: Record<string, FoodEntry>,
   options: RecipeOptions,

@@ -1,7 +1,7 @@
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
 import { formatAmount, parseAmount, parseDecimal } from "../../app/utils/amount";
-import { maxAmount } from "../../app/utils/draft";
+import { maxAmount } from "../../shared/utils/recipe";
 
 const languages = ["de", "en"] as const;
 // Amounts as the field shows them: whole grams or up to two decimals.

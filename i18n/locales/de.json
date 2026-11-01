@@ -149,5 +149,49 @@
     },
     "signedInAs": "Sie sind angemeldet als {name}.",
     "back": "Zurück zum Rezept"
+  },
+  "book": {
+    "title": "Mein Rezeptbuch",
+    "empty": "Noch keine Rezepte. Bauen Sie eins und speichern Sie es.",
+    "open": "Öffnen",
+    "delete": "Löschen",
+    "deleteNamed": "{title} löschen",
+    "deleteConfirm": "„{title}“ löschen?",
+    "deleteFinal": "Das Rezept und sein Foto sind danach weg.",
+    "deleted": "Gelöscht.",
+    "replaceConfirm": "Das Rezept im Editor wird durch „{title}“ ersetzt.",
+    "per100g": "pro 100 g",
+    "noEnergy": "Noch ohne Etikett: es fehlen Mengen.",
+    "openNamed": "{title} öffnen"
+  },
+  "save": {
+    "button": "Speichern",
+    "title": "Rezept speichern",
+    "updateTitle": "Rezept aktualisieren",
+    "name": "Titel",
+    "titleRequired": "Bitte einen Titel eingeben.",
+    "instructions": "Zubereitung",
+    "optional": "freiwillig",
+    "photo": "Foto",
+    "photoHint": "JPEG, PNG oder WebP, bis 8 MB.",
+    "choosePhoto": "Foto wählen",
+    "currentPhoto": "Aktuelles Foto",
+    "removePhoto": "Foto entfernen",
+    "saved": "Gespeichert.",
+    "needsLogin": "Zum Speichern anmelden",
+    "editing": "Rezept:",
+    "new": "Neues Rezept",
+    "newConfirm": "Mit einem leeren Rezept beginnen?",
+    "newKeeps": "„{title}“ bleibt in Ihrem Rezeptbuch, so wie zuletzt gespeichert."
+  },
+  "confirm": {
+    "cancel": "Abbrechen"
+  },
+  "errors": {
+    "signedOut": "Sie sind nicht mehr angemeldet. Bitte melden Sie sich erneut an.",
+    "pictureTooLarge": "Das Foto ist größer als 8 MB.",
+    "pictureFormat": "Nur Fotos als JPEG, PNG oder WebP.",
+    "tooMany": "Zu viele Fotos in kurzer Zeit. Bitte später noch einmal.",
+    "general": "Das hat nicht geklappt. Bitte versuchen Sie es noch einmal."
   }
 }

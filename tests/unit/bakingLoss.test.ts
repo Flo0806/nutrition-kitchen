@@ -1,6 +1,6 @@
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { isWater, takeBakingLoss } from "../../app/utils/bakingLoss";
+import { isWater, takeBakingLoss } from "../../shared/utils/bakingLoss";
 
 const flour = { id: 1, code: "C214200", amount: 1000 };
 const water = { id: 2, code: "N110000", amount: 600 };

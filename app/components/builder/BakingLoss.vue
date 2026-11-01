@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isWater } from "~/utils/bakingLoss";
+import { isWater } from "#shared/utils/bakingLoss";
 
 const props = defineProps<{ total: number }>();
 const { t, n } = useI18n();

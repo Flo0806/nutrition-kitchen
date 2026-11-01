@@ -1,6 +1,6 @@
 import { calculateNutrition, DiagnosticError, type Diagnostic } from "@thereforejs/nutrition";
-import type { FoodEntry } from "#shared/types/food";
-import { materialNutrients, type CustomMaterial, type Source } from "#shared/utils/source";
+import type { FoodEntry } from "../types/food";
+import { materialNutrients, type CustomMaterial, type Source } from "./source";
 
 type Language = "de" | "en";
 
