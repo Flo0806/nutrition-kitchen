@@ -14,6 +14,10 @@ export default defineNuxtConfig({
     ],
     detectBrowserLanguage: { useCookie: true, cookieKey: "locale", fallbackLocale: "de" },
   },
+  runtimeConfig: {
+    // NUXT_DATABASE_PATH; in the Docker image .data is the volume.
+    databasePath: ".data/nutrition-kitchen.sqlite",
+  },
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   // The server runs on Node 22; Nitro's default es2019 target warns about BigInt literals in deps.

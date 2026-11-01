@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { parseDecimal } from "~/utils/amount";
 import {
-  checkMaterial,
   materialNutrients,
   type CustomMaterial,
   type MaterialNutrient,
-} from "~/utils/material";
+} from "#shared/utils/source";
+import { checkMaterial } from "~/utils/material";
 import { labelLocales } from "~/utils/labelText";
 
 const props = defineProps<{ initial?: { name?: string; per100g?: CustomMaterial["per100g"] } }>();

@@ -3,8 +3,8 @@
 A public, open source Nuxt app (nutrition.fh-softdev.de): anyone builds a recipe from raw materials
 and gets its EU nutrition declaration (Regulation 1169/2011). Showcase for `@thereforejs/nutrition`,
 `@thereforejs/foods` and `@thereforejs/food-finder`. UI German first, English too.
-Stack: Nuxt 4.6 (`app/` dir), Nuxt UI 4, pnpm. Planned: `@nuxtjs/i18n`, `nuxt-auth-utils`, SQLite via
-Drizzle, Docker image on ghcr.
+Stack: Nuxt 4.6 (`app/` dir), Nuxt UI 4, `@nuxtjs/i18n`, SQLite via Drizzle and better-sqlite3, pnpm,
+Docker image on ghcr. Planned: `nuxt-auth-utils`.
 
 ## Workflow
 
@@ -38,4 +38,10 @@ Drizzle, Docker image on ghcr.
 - Light mode only (`ui.colorMode: false`), 2026-10-31: the label is printed matter.
 - SQLite, not MySQL, 2026-10-31: one server, rare writes (saving recipes), WAL handles far more than
   this app needs. Database and pictures share the `data` volume at `/app/.data`.
+- Database: schema in `server/db/schema.ts`, rules as constraints there too. After a change run
+  `pnpm db:generate --name <what>`; the server migrates at start (`server/plugins/database.ts`).
+  Store inputs, never results. Config is checked with Zod in `server/utils/config.ts`.
+- `pnpm typecheck` also checks `tests/` and the tool configs (`tests/tsconfig.json`).
+- New package versions are held back by pnpm's `minimumReleaseAge` on purpose: add each needed
+  version explicitly to `minimumReleaseAgeExclude`, never a scope wildcard.
 - TypeScript pinned to 6.x: vue-tsc (Volar 2.4) does not support TypeScript 7 yet.

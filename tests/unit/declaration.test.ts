@@ -68,9 +68,11 @@ describe("declare", () => {
   });
 
   it("points a refusal at its row, counted without the rows left out", () => {
-    const sweet = {
+    // Flour whose sheet claims more sugars than carbohydrate.
+    const flour = entry(C214200);
+    const sweet: Record<string, FoodEntry> = {
       ...foods,
-      X: { ...entry(C214200), code: "X", per100g: { carbohydrate: "20", sugars: "35" } },
+      X: { ...flour, code: "X", per100g: { ...flour.per100g, carbohydrate: "20", sugars: "35" } },
     };
     const declared = declare(
       [
@@ -78,7 +80,7 @@ describe("declare", () => {
         { id: 8, code: "C214200", amount: 100 },
         { id: 9, code: "X", amount: 50 },
       ],
-      sweet as Record<string, FoodEntry>,
+      sweet,
       options,
     );
     expect(declared).toMatchObject({

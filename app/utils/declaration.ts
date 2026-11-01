@@ -8,7 +8,8 @@ import {
 import { de, en } from "@thereforejs/nutrition/locales";
 import type { FoodEntry } from "#shared/types/food";
 import { takeBakingLoss } from "~/utils/bakingLoss";
-import { sourceValues, type Source } from "~/utils/material";
+import type { Source } from "#shared/utils/source";
+import { sourceValues } from "~/utils/material";
 
 export type RecipeOptions = {
   pieceWeight: number | null;

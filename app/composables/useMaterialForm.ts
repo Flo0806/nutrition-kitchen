@@ -1,5 +1,5 @@
 import { LazyBuilderMaterialModal } from "#components";
-import type { CustomMaterial } from "~/utils/material";
+import type { CustomMaterial } from "#shared/utils/source";
 
 /** Asks for a raw material of one's own; resolves with it, or `undefined` when cancelled. */
 export function useMaterialForm() {

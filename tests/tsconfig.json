@@ -1,0 +1,10 @@
+{
+  // Tests and tool configs are no part of Nuxt's own typecheck; this brings them in with Nuxt's
+  // aliases (~, #shared), which the tests share with the app.
+  "extends": "../.nuxt/tsconfig.app.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "noEmit": true
+  },
+  "include": ["./**/*.ts", "../*.config.ts"]
+}

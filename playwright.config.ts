@@ -20,7 +20,8 @@ export default defineConfig({
     { name: "mobile-webkit", testIgnore: nodeOnly, use: { ...devices["iPhone 15"] } },
   ],
   webServer: {
-    command: `pnpm build --envName e2e && PORT=${port} node .output-e2e/server/index.mjs`,
+    // A fresh database each run, apart from the dev server's.
+    command: `pnpm build --envName e2e && rm -rf .data/e2e && NUXT_DATABASE_PATH=.data/e2e/nutrition-kitchen.sqlite PORT=${port} node .output-e2e/server/index.mjs`,
     url: `http://localhost:${port}`,
     reuseExistingServer: false,
     timeout: 180_000,

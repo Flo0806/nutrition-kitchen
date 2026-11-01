@@ -14,10 +14,11 @@
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
-    "typecheck": "nuxt typecheck",
+    "typecheck": "nuxt typecheck && vue-tsc -p tests/tsconfig.json",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "verify": "pnpm fmt:check && pnpm lint && pnpm typecheck && pnpm test && pnpm test:e2e"
+    "verify": "pnpm fmt:check && pnpm lint && pnpm typecheck && pnpm test && pnpm test:e2e",
+    "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.149",
@@ -27,6 +28,8 @@
     "@thereforejs/foods": ">=0.0.1 <0.1.0",
     "@thereforejs/nutrition": ">=0.0.1 <0.1.0",
     "@vueuse/integrations": "^14.4.0",
+    "better-sqlite3": "^13.0.3",
+    "drizzle-orm": "^0.45.4",
     "nuxt": "^4.6.3",
     "sortablejs": "^1.15.7",
     "tailwindcss": "^4.3.3",
@@ -36,7 +39,10 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/node": "^22.20.5",
     "@types/sortablejs": "^1.15.9",
+    "drizzle-kit": "^0.31.11",
     "fast-check": "^4.10.2",
     "nuxt-spyglass": "^1.0.0",
     "oxfmt": "^0.75.0",

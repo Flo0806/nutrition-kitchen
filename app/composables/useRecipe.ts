@@ -1,6 +1,6 @@
 import type { RecipeOptions } from "~/utils/declaration";
 import { defaultRecipeOptions, parseDraft, serializeDraft } from "~/utils/draft";
-import type { Source } from "~/utils/material";
+import type { Source } from "#shared/utils/source";
 
 export type RecipeRow = Source & { id: number; amount: number | null };
 

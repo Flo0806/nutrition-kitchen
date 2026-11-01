@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Source } from "~/utils/material";
+import type { Source } from "#shared/utils/source";
 
 const { add } = useRecipe();
 const askMaterial = useMaterialForm();

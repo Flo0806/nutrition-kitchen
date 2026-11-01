@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { foodCode } from "#shared/utils/foodCode";
 import type { RecipeOptions } from "~/utils/declaration";
-import { materialNutrients, type Source } from "~/utils/material";
+import { materialNutrients, type Source } from "#shared/utils/source";
 
 /** Grams; one tonne is far beyond any kitchen and keeps typos out. */
 export const maxAmount = 1_000_000;
