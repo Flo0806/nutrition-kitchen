@@ -9,8 +9,13 @@ export default defineEventHandler(async (event) => {
   const user = await requireUser(event);
   const id = recipeIdOf(event);
   checkPictureRate(user.id);
-  // Refuse a large body before reading it.
-  if (Number(getRequestHeader(event, "content-length") ?? 0) > maxBodyBytes) {
+  // Refuse a large body before reading it. Without a length (chunked) the size shows only after
+  // the whole body sits in memory; browsers always send one for a form. Node holds the body to it.
+  const length = Number(getRequestHeader(event, "content-length"));
+  if (!Number.isSafeInteger(length) || length <= 0) {
+    throw createError({ statusCode: 411, statusMessage: "Content-Length required" });
+  }
+  if (length > maxBodyBytes) {
     throw createError({ statusCode: 413, statusMessage: "Picture too large" });
   }
   const file = (await event.req.formData()).get("picture");

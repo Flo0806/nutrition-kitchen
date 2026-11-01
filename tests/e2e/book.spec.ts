@@ -195,3 +195,28 @@ test("a recipe of someone else is not found, and the api checks what it gets", a
   expect((await page.request.get("/api/recipes/abc")).status()).toBe(400);
   expect((await page.request.get(`/api/recipes/${id}`)).status()).toBe(200);
 });
+
+test("a photo upload without a declared length is refused before it is read", async ({
+  page,
+  baseURL,
+}) => {
+  await signInAs(page);
+  const created = await page.request.post("/api/recipes", {
+    data: { title: "Ohne Länge", instructions: "", rows: rolls.rows, options: rolls.options },
+  });
+  const { id } = (await created.json()) as { id: number };
+  const cookie = (await page.context().cookies())
+    .map(({ name, value }) => `${name}=${value}`)
+    .join("; ");
+  const form = new FormData();
+  form.append("picture", new Blob([await photo()], { type: "image/png" }), "p.png");
+  const body = new Response(form);
+  // A stream has no length, so it goes out chunked: the server cannot know the size up front.
+  const response = await fetch(new URL(`/api/recipes/${id}/image`, baseURL), {
+    method: "PUT",
+    headers: { cookie, "content-type": body.headers.get("content-type")! },
+    body: body.body,
+    duplex: "half",
+  } as RequestInit);
+  expect(response.status).toBe(411);
+});
