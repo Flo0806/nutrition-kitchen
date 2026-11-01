@@ -7,6 +7,7 @@ export default defineEventHandler(async (event) => {
     id: recipe.id,
     title: recipe.title,
     image: recipe.image,
+    shareSlug: recipe.shareSlug,
     updatedAt: recipe.updatedAt.toISOString(),
     energy: recipeEnergy(recipe),
   }));

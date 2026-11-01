@@ -1,4 +1,5 @@
-import { createError, type RequestEvent } from "nuxt/server";
+import { createError, deleteCookie, getCookie, type RequestEvent } from "nuxt/server";
+import { loginReturnCookie, loginReturnPath } from "#shared/utils/share";
 import { eq } from "drizzle-orm";
 import { upsertUser, type Account } from "../db/users";
 import { users } from "../db/schema";
@@ -22,4 +23,11 @@ export async function requireUser(event: RequestEvent) {
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
   return found;
+}
+
+/** Where to go after a login: back to the shared recipe it started on, or home. */
+export function loginReturn(event: RequestEvent) {
+  const path = loginReturnPath(getCookie(event, loginReturnCookie));
+  deleteCookie(event, loginReturnCookie);
+  return path ?? "/";
 }

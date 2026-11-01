@@ -8,9 +8,7 @@ const maxBodyBytes = maxPictureBytes + 64 * 1024;
 export default defineEventHandler(async (event) => {
   const user = await requireUser(event);
   const id = recipeIdOf(event);
-  if (!allowRate(`picture:${user.id}`, 20, 60 * 60 * 1000)) {
-    throw createError({ statusCode: 429, statusMessage: "Too many uploads, try again later" });
-  }
+  checkPictureRate(user.id);
   // Refuse a large body before reading it.
   if (Number(getRequestHeader(event, "content-length") ?? 0) > maxBodyBytes) {
     throw createError({ statusCode: 413, statusMessage: "Picture too large" });

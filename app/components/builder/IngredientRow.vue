@@ -7,7 +7,7 @@ const { t, n, locale } = useI18n();
 const { foods, failed, load } = useFoods();
 const { remove, replace, setAmount, move } = useRecipe();
 const askMaterial = useMaterialForm();
-const declared = useDeclaration();
+const { declared } = useDeclaration();
 const { describeGap, describeProblem } = useLabelText();
 
 // What the label says about this row: refusals first, they stop the whole label.

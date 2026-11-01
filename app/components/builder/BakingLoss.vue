@@ -4,7 +4,7 @@ import { isWater } from "#shared/utils/bakingLoss";
 const props = defineProps<{ total: number }>();
 const { t, n } = useI18n();
 const { rows, options } = useRecipe();
-const declared = useDeclaration();
+const { declared } = useDeclaration();
 
 const hasWater = computed(() => rows.value.some(isWater));
 const loss = computed({

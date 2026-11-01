@@ -19,7 +19,7 @@ export default defineOAuthBlueskyEventHandler({
     const did = "did" in user ? user.did : "";
     if (!did) return sendRedirect(event, "/login?failed=bluesky");
     await signIn(event, { provider: "bluesky", providerId: did, name: await displayName(did) });
-    return sendRedirect(event, "/");
+    return sendRedirect(event, loginReturn(event));
   },
   onError(event) {
     return sendRedirect(event, "/login?failed=bluesky");

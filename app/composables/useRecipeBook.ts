@@ -5,6 +5,7 @@ export type BookEntry = {
   id: number;
   title: string;
   image: string | null;
+  shareSlug: string | null;
   updatedAt: string;
   energy: Record<string, string> | null;
 };

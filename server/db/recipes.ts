@@ -1,15 +1,17 @@
-import { and, asc, desc, eq, inArray } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, sql } from "drizzle-orm";
 import type { RecipeInput } from "../../shared/utils/recipe";
 import type { Db } from "./open";
 import { recipeIngredients, recipes } from "./schema";
 
-// Every function takes the owner: a recipe of someone else is not found, never just forbidden.
+// Every function takes the owner: a recipe of someone else is not found, never just forbidden. The
+// one way around it is a share slug, which its owner hands out on purpose.
 
 type Row = RecipeInput["rows"][number];
 
 export type StoredRecipe = Pick<RecipeInput, "title" | "instructions" | "rows" | "options"> & {
   id: number;
   image: string | null;
+  shareSlug: string | null;
   updatedAt: Date;
 };
 
@@ -84,6 +86,7 @@ function withRows(db: Db, found: (typeof recipes.$inferSelect)[]): StoredRecipe[
     title: recipe.title,
     instructions: recipe.instructions,
     image: recipe.image,
+    shareSlug: recipe.shareSlug,
     updatedAt: recipe.updatedAt,
     options: { ...recipe.options, pieceWeight: recipe.pieceWeight, bakingLoss: recipe.bakingLoss },
     rows: rows
@@ -133,4 +136,40 @@ export function setRecipeImage(
     tx.update(recipes).set({ image, updatedAt: new Date() }).where(owned(userId, id)).run();
     return { previous: found.image };
   });
+}
+
+/**
+ * Makes a recipe public under `slug`, or keeps the slug it already has, so a link handed out stays
+ * valid. The slug in use, `false` when there is no such recipe.
+ */
+export function shareRecipe(db: Db, userId: number, id: number, slug: string): string | false {
+  const shared = db
+    .update(recipes)
+    .set({ shareSlug: sql`coalesce(${recipes.shareSlug}, ${slug})` })
+    .where(owned(userId, id))
+    .returning({ shareSlug: recipes.shareSlug })
+    .get();
+  return shared?.shareSlug ?? false;
+}
+
+/**
+ * Ends the link for good: sharing again gives a new slug. The recipe's image, which has to move to
+ * a new name too; `false` when there is no such recipe.
+ */
+export function unshareRecipe(
+  db: Db,
+  userId: number,
+  id: number,
+): { image: string | null } | false {
+  const changed = db
+    .update(recipes)
+    .set({ shareSlug: null })
+    .where(owned(userId, id))
+    .returning({ image: recipes.image })
+    .get();
+  return changed ?? false;
+}
+
+export function getSharedRecipe(db: Db, slug: string): StoredRecipe | undefined {
+  return withRows(db, db.select().from(recipes).where(eq(recipes.shareSlug, slug)).all())[0];
 }

@@ -8,8 +8,11 @@ import {
   createRecipe,
   deleteRecipe,
   getRecipe,
+  getSharedRecipe,
   listRecipes,
   setRecipeImage,
+  shareRecipe,
+  unshareRecipe,
   updateRecipe,
 } from "../../server/db/recipes";
 import { recipeIngredients } from "../../server/db/schema";
@@ -139,5 +142,36 @@ describe("recipes", () => {
     expect(setRecipeImage(db, flo, id, "one.webp")).toEqual({ previous: null });
     expect(setRecipeImage(db, flo, id, "two.webp")).toEqual({ previous: "one.webp" });
     expect(getRecipe(db, flo, id)?.image).toBe("two.webp");
+  });
+
+  it("shares a recipe under one slug until it is private again", () => {
+    const id = createRecipe(db, flo, rolls);
+    expect(getRecipe(db, flo, id)?.shareSlug).toBeNull();
+    expect(shareRecipe(db, flo, id, "AAAAAAAAAAAA")).toBe("AAAAAAAAAAAA");
+    // Sharing again keeps the link people already have.
+    expect(shareRecipe(db, flo, id, "BBBBBBBBBBBB")).toBe("AAAAAAAAAAAA");
+    expect(getSharedRecipe(db, "AAAAAAAAAAAA")).toMatchObject({ id, ...rolls });
+
+    expect(unshareRecipe(db, flo, id)).toEqual({ image: null });
+    expect(getSharedRecipe(db, "AAAAAAAAAAAA")).toBeUndefined();
+    // A new share is a new link: the old one stays dead.
+    expect(shareRecipe(db, flo, id, "CCCCCCCCCCCC")).toBe("CCCCCCCCCCCC");
+    expect(getSharedRecipe(db, "AAAAAAAAAAAA")).toBeUndefined();
+  });
+
+  it("lets only the owner share or end a share", () => {
+    const id = createRecipe(db, flo, rolls);
+    expect(shareRecipe(db, other, id, "AAAAAAAAAAAA")).toBe(false);
+    expect(getSharedRecipe(db, "AAAAAAAAAAAA")).toBeUndefined();
+    shareRecipe(db, flo, id, "AAAAAAAAAAAA");
+    expect(unshareRecipe(db, other, id)).toBe(false);
+    expect(getSharedRecipe(db, "AAAAAAAAAAAA")).toBeDefined();
+  });
+
+  it("keeps a recipe and its link when the content changes", () => {
+    const id = createRecipe(db, flo, rolls);
+    shareRecipe(db, flo, id, "AAAAAAAAAAAA");
+    updateRecipe(db, flo, id, { ...rolls, title: "Neu" });
+    expect(getSharedRecipe(db, "AAAAAAAAAAAA")?.title).toBe("Neu");
   });
 });

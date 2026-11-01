@@ -3,8 +3,8 @@ import { labelLocales, labelTable, labelText, type LabelLanguage } from "~/utils
 import { sourceName } from "#shared/utils/material";
 
 const { t, locale } = useI18n();
-const declared = useDeclaration();
-const { rows, options } = useRecipe();
+defineProps<{ readonly?: boolean }>();
+const { declared, rows, options } = useDeclaration();
 const { foods } = useFoods();
 const { describeProblem } = useLabelText();
 const toast = useToast();
@@ -116,7 +116,7 @@ async function copy() {
       {{ t("label.withoutAmount", { names: withoutAmount.join(", ") }) }}
     </p>
 
-    <LabelOptions class="mt-8 print:hidden" />
+    <LabelOptions v-if="!readonly" class="mt-8 print:hidden" />
   </section>
 </template>
 

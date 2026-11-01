@@ -162,7 +162,10 @@
     "replaceConfirm": "The recipe in the editor is replaced by “{title}”.",
     "per100g": "per 100 g",
     "noEnergy": "No label yet: amounts are missing.",
-    "openNamed": "Open {title}"
+    "openNamed": "Open {title}",
+    "share": "Share",
+    "shareNamed": "Share {title}",
+    "shared": "Shared"
   },
   "save": {
     "button": "Save",
@@ -193,5 +196,33 @@
     "pictureFormat": "Only photos as JPEG, PNG or WebP.",
     "tooMany": "Too many photos in a short time. Please try again later.",
     "general": "That did not work. Please try again."
+  },
+  "share": {
+    "title": "Share “{title}”",
+    "hint": "With a link, anyone sees the recipe with its photo, method and label, without being able to change it. Nobody sees your name.",
+    "sharedHint": "Anyone with this link sees the recipe, including every change you save later.",
+    "create": "Create link",
+    "link": "Link",
+    "copy": "Copy link",
+    "copied": "Link copied.",
+    "stop": "End link",
+    "stopHint": "An ended link stops working. Share the recipe again and it gets a new one.",
+    "stopped": "Link ended."
+  },
+  "shared": {
+    "copy": "Copy to my recipe book",
+    "copyNeedsLogin": "Sign in to copy",
+    "copied": "Copied to your recipe book.",
+    "ingredients": "Ingredients",
+    "instructions": "Method",
+    "bakingLoss": "Baking loss",
+    "noAmount": "no amount"
+  },
+  "errorPage": {
+    "notFound": "This page does not exist.",
+    "notFoundHint": "The link may have been ended, or the recipe deleted.",
+    "failed": "Something went wrong.",
+    "failedHint": "Please reload the page or try again later.",
+    "home": "To the start page"
   }
 }

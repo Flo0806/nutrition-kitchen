@@ -10,7 +10,7 @@ export default defineOAuthGoogleEventHandler({
   async onSuccess(event, { user }) {
     const { sub, name } = profile.parse(user);
     await signIn(event, { provider: "google", providerId: sub, name });
-    return sendRedirect(event, "/");
+    return sendRedirect(event, loginReturn(event));
   },
   onError(event) {
     return sendRedirect(event, "/login?failed=google");

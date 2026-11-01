@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { LazyBookShareModal } from "#components";
 import type { BookEntry } from "~/composables/useRecipeBook";
 
 definePageMeta({ middleware: "auth" });
@@ -10,6 +11,7 @@ const { openSaved, remove } = useRecipeBook();
 const describeError = useRequestError();
 const confirm = useConfirm();
 const toast = useToast();
+const shareModal = useOverlay().create(LazyBookShareModal);
 
 const { data: entries, refresh } = await useFetch<BookEntry[]>("/api/recipes", {
   default: () => [],
@@ -31,6 +33,15 @@ async function openEntry(entry: BookEntry) {
   } catch (error) {
     toast.add({ title: describeError(error), color: "error" });
   }
+}
+
+async function shareEntry(entry: BookEntry) {
+  const { id, title, shareSlug } = entry;
+  await shareModal.open({ id, title, shareSlug }).result;
+  await refresh();
+  // Ending a share renames the photo; the builder may hold this recipe.
+  const fresh = entries.value.find((candidate) => candidate.id === id);
+  if (fresh && saved.value?.id === id) saved.value = { ...saved.value, image: fresh.image };
 }
 
 async function deleteEntry(entry: BookEntry) {
@@ -71,6 +82,14 @@ async function deleteEntry(entry: BookEntry) {
         <div v-else class="size-20 shrink-0 rounded-md bg-elevated" aria-hidden="true" />
         <div class="min-w-0 flex-1">
           <h2 class="text-lg font-bold">{{ entry.title }}</h2>
+          <UBadge
+            v-if="entry.shareSlug"
+            class="my-1"
+            color="neutral"
+            variant="subtle"
+            icon="i-lucide-link"
+            :label="t('book.shared')"
+          />
           <p class="text-muted">
             {{
               entry.energy ? `${entry.energy[energyKey]} ${t("book.per100g")}` : t("book.noEnergy")
@@ -81,6 +100,13 @@ async function deleteEntry(entry: BookEntry) {
           :label="t('book.open')"
           :aria-label="t('book.openNamed', { title: entry.title })"
           @click="openEntry(entry)"
+        />
+        <UButton
+          icon="i-lucide-share-2"
+          color="neutral"
+          variant="ghost"
+          :aria-label="t('book.shareNamed', { title: entry.title })"
+          @click="shareEntry(entry)"
         />
         <UButton
           icon="i-lucide-trash-2"

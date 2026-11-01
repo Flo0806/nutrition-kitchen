@@ -162,7 +162,10 @@
     "replaceConfirm": "Das Rezept im Editor wird durch „{title}“ ersetzt.",
     "per100g": "pro 100 g",
     "noEnergy": "Noch ohne Etikett: es fehlen Mengen.",
-    "openNamed": "{title} öffnen"
+    "openNamed": "{title} öffnen",
+    "share": "Teilen",
+    "shareNamed": "{title} teilen",
+    "shared": "Geteilt"
   },
   "save": {
     "button": "Speichern",
@@ -193,5 +196,33 @@
     "pictureFormat": "Nur Fotos als JPEG, PNG oder WebP.",
     "tooMany": "Zu viele Fotos in kurzer Zeit. Bitte später noch einmal.",
     "general": "Das hat nicht geklappt. Bitte versuchen Sie es noch einmal."
+  },
+  "share": {
+    "title": "„{title}“ teilen",
+    "hint": "Mit einem Link sieht jeder das Rezept mit Foto, Zubereitung und Etikett, ohne es ändern zu können. Ihren Namen sieht niemand.",
+    "sharedHint": "Jeder mit diesem Link sieht das Rezept, auch jede Änderung, die Sie später speichern.",
+    "create": "Link erstellen",
+    "link": "Link",
+    "copy": "Link kopieren",
+    "copied": "Link kopiert.",
+    "stop": "Link beenden",
+    "stopHint": "Ein beendeter Link geht nicht mehr. Teilen Sie das Rezept erneut, bekommt es einen neuen.",
+    "stopped": "Link beendet."
+  },
+  "shared": {
+    "copy": "In mein Rezeptbuch kopieren",
+    "copyNeedsLogin": "Zum Kopieren anmelden",
+    "copied": "In Ihr Rezeptbuch kopiert.",
+    "ingredients": "Zutaten",
+    "instructions": "Zubereitung",
+    "bakingLoss": "Backverlust",
+    "noAmount": "ohne Menge"
+  },
+  "errorPage": {
+    "notFound": "Diese Seite gibt es nicht.",
+    "notFoundHint": "Vielleicht wurde der Link beendet oder das Rezept gelöscht.",
+    "failed": "Das hat nicht geklappt.",
+    "failedHint": "Bitte laden Sie die Seite neu oder versuchen Sie es später noch einmal.",
+    "home": "Zur Startseite"
   }
 }
