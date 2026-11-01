@@ -81,7 +81,7 @@ img { position: absolute; top: -70px; right: -70px; width: 190px; transform: rot
 </style></head><body><div class="label">
 <img src="data:image/svg+xml;base64,${mark.toString("base64")}" alt="">
 <h1>Nutrition Kitchen</h1><div class="rule"></div>
-<div class="row"><b>Rezept eingeben</b><span>aus über 6.000 Lebensmitteln</span></div>
+<div class="row"><b>Rezept eingeben</b><span>aus über 7.000 Lebensmitteln</span></div>
 <div class="row"><b>Nährwerte ablesen</b><span>als Etikett nach EU-Recht</span></div>
 <div class="row"><b>Teilen</b><span>frei, ohne Tracking</span></div>
 </div></body></html>`;
