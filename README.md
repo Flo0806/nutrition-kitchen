@@ -6,7 +6,7 @@ package, under the EU food information regulation (Regulation (EU) No 1169/2011,
 Type "Mehl", pick it, type 500, done. The label updates while you type. Free, no account needed;
 an account only exists to save and share recipes.
 
-Live at [nutrition.fh-softdev.de](https://nutrition.fh-softdev.de). German first, English too.
+Live at [nutrition-kitchen.fh-softdev.de](https://nutrition-kitchen.fh-softdev.de). German first, English too.
 
 > [!WARNING]
 > In development. The label is no legal advice: it stays the responsibility of the food business.

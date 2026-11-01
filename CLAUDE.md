@@ -1,6 +1,6 @@
 # nutrition-kitchen
 
-A public, open source Nuxt app (nutrition.fh-softdev.de): anyone builds a recipe from raw materials
+A public, open source Nuxt app (nutrition-kitchen.fh-softdev.de): anyone builds a recipe from raw materials
 and gets its EU nutrition declaration (Regulation 1169/2011). Showcase for `@thereforejs/nutrition`,
 `@thereforejs/foods` and `@thereforejs/food-finder`. UI German first, English too.
 Stack: Nuxt 4.6 (`app/` dir), Nuxt UI 4, `@nuxtjs/i18n`, SQLite via Drizzle and better-sqlite3, pnpm,

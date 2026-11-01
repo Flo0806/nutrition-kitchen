@@ -25,8 +25,8 @@ export default defineNuxtConfig({
       google: { clientId: "", clientSecret: "", redirectURL: "" },
       bluesky: {
         clientName: "Nutrition Kitchen",
-        clientUri: "https://nutrition.fh-softdev.de",
-        policyUri: "https://nutrition.fh-softdev.de/privacy",
+        clientUri: "https://nutrition-kitchen.fh-softdev.de",
+        policyUri: "https://nutrition-kitchen.fh-softdev.de/privacy",
         scope: ["atproto"],
         // Without it the metadata names its own path as the way back, and Bluesky refuses the login.
         redirectUris: ["/auth/bluesky"],
