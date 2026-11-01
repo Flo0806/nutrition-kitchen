@@ -87,23 +87,37 @@
       recipe book. Such a copy is then theirs and stays, even if you delete your recipe or your
       account.
     </p>
-    <h2>7. Deleting your account</h2>
+    <h2>7. Problems and ideas</h2>
+    <p>
+      When you report something through "Problems &amp; ideas", we send your message, the kind of
+      report you chose, your search term if any and, only if you give it, your email address to us
+      by email. We use the report to improve the app, and your email address only to answer you. We
+      delete the mail once the report is dealt with. The legal basis is Art. 6 (1) (f) GDPR, and
+      Art. 6 (1) (a) GDPR where you give an email address.
+    </p>
+    <p>
+      Against automated reports, your browser solves a small computing task before sending (ALTCHA).
+      It sets no cookies and sends no data to third parties. We accept at most five reports per hour
+      from one address; the IP address is counted for this in the server's memory only, never
+      stored.
+    </p>
+    <h2>8. Deleting your account</h2>
     <p>
       You can delete your account at any time from the menu with your initials. We then delete your
       account, all your recipes and their photos at once. Shared links stop working, and every
       existing sign-in ends.
     </p>
-    <h2>8. No tracking</h2>
+    <h2>9. No tracking</h2>
     <p>
       We use no analytics or marketing tools. Fonts and icons are served from our own server.
       Connections to Google or Bluesky only happen when you sign in with them.
     </p>
-    <h2>9. Links to other websites</h2>
+    <h2>10. Links to other websites</h2>
     <p>
       Links to the data sources, to Creative Commons or to GitHub are plain links. Data is only sent
       to the respective provider once you click one, and their privacy policy applies there.
     </p>
-    <h2>10. Your rights</h2>
+    <h2>11. Your rights</h2>
     <p>
       You have the right of access (Art. 15 GDPR), rectification (Art. 16), erasure (Art. 17),
       restriction of processing (Art. 18), data portability (Art. 20) and to object to processing

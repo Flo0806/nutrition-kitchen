@@ -15,6 +15,8 @@ const listId = useId();
 // The last option is always "add as own raw material": partial hits make an empty list rare, so an
 // offer only for no hits would hardly ever show.
 const customIndex = computed(() => hits.value.length);
+// Then "report it": what people miss is what the search learns next.
+const reportIndex = computed(() => hits.value.length + 1);
 const optionId = (index: number) => `${listId}-${index}`;
 
 // Searches can overtake each other while the names load; only the newest may show.
@@ -38,8 +40,12 @@ function reset() {
 
 function choose(index: number) {
   const hit = hits.value[index];
+  const search = query.value.trim();
   if (hit) emit("pick", hit.code);
-  else emit("custom", query.value.trim());
+  else if (index === reportIndex.value) {
+    reset();
+    return navigateTo({ path: "/feedback", query: { kind: "missingFood", search } });
+  } else emit("custom", search);
   reset();
 }
 
@@ -60,7 +66,7 @@ async function onEnter() {
 
 function step(delta: number) {
   if (!query.value.trim()) return;
-  const count = hits.value.length + 1;
+  const count = hits.value.length + 2;
   open.value = true;
   active.value = (active.value + delta + count) % count;
 }
@@ -96,6 +102,10 @@ function step(delta: number) {
       <p v-if="hits.length === 0" role="status" class="px-4 pt-3 text-muted">
         {{ t("builder.search.noHits", { query: query.trim() }) }}
       </p>
+      <!-- A mistyped word read as the nearest known one: say so, or the hits look unrelated. -->
+      <p v-else-if="hits[0]?.match === 'fuzzy'" role="status" class="px-4 pt-3 text-muted">
+        {{ t("builder.search.similar", { query: query.trim() }) }}
+      </p>
       <ul :id="listId" role="listbox" :aria-label="t('builder.search.label')">
         <li
           v-for="(hit, index) in hits"
@@ -119,6 +129,17 @@ function step(delta: number) {
         >
           <UIcon name="i-lucide-plus" aria-hidden="true" />
           {{ t("material.fromSearch", { query: query.trim() }) }}
+        </li>
+        <li
+          :id="optionId(reportIndex)"
+          role="option"
+          :aria-selected="reportIndex === active"
+          class="flex cursor-pointer items-center gap-2 border-t border-default px-4 py-3 text-muted aria-selected:bg-primary/10"
+          @mousedown.prevent="choose(reportIndex)"
+          @mousemove="active = reportIndex"
+        >
+          <UIcon name="i-lucide-message-square-warning" aria-hidden="true" />
+          {{ t("feedback.fromSearch", { query: query.trim() }) }}
         </li>
       </ul>
     </div>

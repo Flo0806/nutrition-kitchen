@@ -13,7 +13,8 @@
     "sources": "Alle Quellen",
     "imprint": "Impressum",
     "privacy": "Datenschutz",
-    "code": "Quellcode"
+    "code": "Quellcode",
+    "feedback": "Fehler & Vorschläge"
   },
   "sources": {
     "title": "Quellen",
@@ -30,7 +31,8 @@
     "search": {
       "label": "Zutat suchen",
       "placeholder": "zum Beispiel Mehl, Butter, Zucker",
-      "noHits": "Nichts gefunden für „{query}“."
+      "noHits": "Nichts gefunden für „{query}“.",
+      "similar": "Nichts gefunden für „{query}“. Meinten Sie:"
     },
     "rows": {
       "label": "Zutaten",
@@ -233,5 +235,29 @@
     "deleteConfirm": "Ihr Konto löschen?",
     "deleteFinal": "Ihr Konto, alle gespeicherten Rezepte und ihre Fotos werden sofort und endgültig gelöscht. Geteilte Links funktionieren danach nicht mehr. Ihr Entwurf im Editor bleibt auf diesem Gerät.",
     "deleted": "Ihr Konto ist gelöscht."
+  },
+  "feedback": {
+    "title": "Fehler & Vorschläge",
+    "intro": "Ein Lebensmittel fehlt, die Suche findet etwas nicht oder ein Wert stimmt nicht? Schreiben Sie es uns. Jede Meldung macht die Suche besser.",
+    "kind": "Worum geht es?",
+    "kinds": {
+      "missingFood": "Lebensmittel fehlt oder wird nicht gefunden",
+      "wrongValue": "Ein Wert stimmt nicht",
+      "bug": "Etwas funktioniert nicht",
+      "idea": "Eine Idee"
+    },
+    "message": "Ihre Nachricht",
+    "messageRequired": "Bitte schreiben Sie kurz, worum es geht.",
+    "prefill": "Die Suche nach „{search}“ findet nicht, was ich suche:",
+    "email": "Ihre E-Mail-Adresse",
+    "optional": "freiwillig",
+    "emailHint": "Nur, wenn Sie eine Antwort möchten.",
+    "robot": "Bitte bestätigen Sie kurz, dass Sie kein Roboter sind.",
+    "send": "Senden",
+    "thanks": "Danke! Ihre Meldung ist angekommen.",
+    "back": "Zurück zum Rezept",
+    "fromSearch": "„{query}“ nicht dabei? Melden",
+    "robotFailed": "Die Roboter-Prüfung ist abgelaufen. Bitte bestätigen Sie noch einmal.",
+    "tooMany": "Zu viele Meldungen in kurzer Zeit. Bitte später noch einmal."
   }
 }

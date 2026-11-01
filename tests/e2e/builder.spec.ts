@@ -30,9 +30,10 @@ test.beforeEach(async ({ page }) => {
 test("an everyday word with many foods shows a list and lets a human pick", async ({ page }) => {
   await search(page).fill("Mehl");
   const options = page.getByRole("option");
-  // Eight hits, then the offer to add it as an own raw material.
-  await expect(options).toHaveCount(9);
-  await expect(options.last()).toHaveText("„Mehl“ als eigenen Rohstoff anlegen");
+  // Eight hits, then the offers to add it as an own raw material and to report it.
+  await expect(options).toHaveCount(10);
+  await expect(options.nth(8)).toHaveText("„Mehl“ als eigenen Rohstoff anlegen");
+  await expect(options.last()).toHaveText("„Mehl“ nicht dabei? Melden");
   await expect(options.first()).toHaveText("Weizen Mehl, Type 405");
 
   await search(page).press("Enter");
@@ -147,4 +148,19 @@ test("English everyday words find what a cook means", async ({ page }) => {
   await english.fill("butter");
   await english.press("Enter");
   await expect(rowNames(page)).toHaveText(["Sweet cream butter"]);
+});
+
+test("a mistyped food is found and says so", async ({ page }) => {
+  await openReady(page, "/");
+  await page.getByRole("combobox", { name: "Zutat suchen" }).fill("Kartofel");
+  await expect(page.getByRole("status").filter({ hasText: "Meinten Sie" })).toHaveText(
+    "Nichts gefunden für „Kartofel“. Meinten Sie:",
+  );
+  await expect(page.getByRole("option", { name: "Kartoffel geschält, roh" })).toBeVisible();
+});
+
+test("the everyday word finds the food the BLS names otherwise", async ({ page }) => {
+  await openReady(page, "/");
+  await page.getByRole("combobox", { name: "Zutat suchen" }).fill("Nudeln");
+  await expect(page.getByRole("option").first()).toHaveText("Teigwaren eifrei, roh");
 });

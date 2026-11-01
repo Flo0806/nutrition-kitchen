@@ -13,7 +13,8 @@
     "sources": "All sources",
     "imprint": "Legal notice",
     "privacy": "Privacy",
-    "code": "Source code"
+    "code": "Source code",
+    "feedback": "Problems & ideas"
   },
   "sources": {
     "title": "Sources",
@@ -30,7 +31,8 @@
     "search": {
       "label": "Find an ingredient",
       "placeholder": "for example flour, butter, sugar",
-      "noHits": "Nothing found for “{query}”."
+      "noHits": "Nothing found for “{query}”.",
+      "similar": "Nothing found for “{query}”. Did you mean:"
     },
     "rows": {
       "label": "Ingredients",
@@ -233,5 +235,29 @@
     "deleteConfirm": "Delete your account?",
     "deleteFinal": "Your account, all saved recipes and their photos are deleted at once and for good. Shared links stop working. The draft in the editor stays on this device.",
     "deleted": "Your account is deleted."
+  },
+  "feedback": {
+    "title": "Problems & ideas",
+    "intro": "A food is missing, the search does not find something, or a value is wrong? Tell us. Every report makes the search better.",
+    "kind": "What is it about?",
+    "kinds": {
+      "missingFood": "A food is missing or not found",
+      "wrongValue": "A value is wrong",
+      "bug": "Something does not work",
+      "idea": "An idea"
+    },
+    "message": "Your message",
+    "messageRequired": "Please write briefly what it is about.",
+    "prefill": "Searching for “{search}” does not find what I am looking for:",
+    "email": "Your email address",
+    "optional": "optional",
+    "emailHint": "Only if you would like an answer.",
+    "robot": "Please confirm briefly that you are not a robot.",
+    "send": "Send",
+    "thanks": "Thank you! Your report has arrived.",
+    "back": "Back to the recipe",
+    "fromSearch": "“{query}” not there? Report it",
+    "robotFailed": "The robot check has expired. Please confirm once more.",
+    "tooMany": "Too many reports in a short time. Please try again later."
   }
 }

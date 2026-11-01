@@ -18,6 +18,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // NUXT_DATABASE_PATH; in the Docker image .data is the volume.
     databasePath: ".data/nutrition-kitchen.sqlite",
+    // NUXT_MAIL_HOST, _PORT, _USER, _PASSWORD, _FROM, _TO: where reports go. NUXT_MAIL_OUTBOX writes
+    // them to a file instead (the e2e build).
+    mail: { host: "", port: "587", user: "", password: "", from: "", to: "", outbox: "" },
     // Declared so NUXT_SESSION_COOKIE_SECURE can turn it off for the http-only e2e server.
     session: { cookie: { secure: true } },
     oauth: {
@@ -33,6 +36,8 @@ export default defineNuxtConfig({
       },
     },
   },
+  // The ALTCHA spam check is a web component.
+  vue: { compilerOptions: { isCustomElement: (tag) => tag === "altcha-widget" } },
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   // The server runs on Node 22; Nitro's default es2019 target warns about BigInt literals in deps.

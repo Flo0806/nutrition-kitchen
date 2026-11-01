@@ -92,25 +92,40 @@
       geteiltes Rezept in ihr eigenes Rezeptbuch kopieren. Eine solche Kopie gehört dann ihnen und
       bleibt bestehen, auch wenn Sie Ihr Rezept oder Ihr Konto löschen.
     </p>
-    <h2>7. Konto löschen</h2>
+    <h2>7. Fehler und Vorschläge</h2>
+    <p>
+      Wenn Sie über „Fehler &amp; Vorschläge“ etwas melden, senden wir Ihre Nachricht, die gewählte
+      Art der Meldung, gegebenenfalls Ihren Suchbegriff und, nur wenn Sie sie angeben, Ihre
+      E-Mail-Adresse per E-Mail an uns. Wir nutzen die Meldung, um die App zu verbessern, und Ihre
+      E-Mail-Adresse nur, um Ihnen zu antworten. Die Mail löschen wir, sobald die Meldung erledigt
+      ist. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO, bei Angabe einer E-Mail-Adresse Art. 6
+      Abs. 1 lit. a DSGVO.
+    </p>
+    <p>
+      Gegen automatisierte Meldungen löst Ihr Browser vor dem Senden eine kleine Rechenaufgabe
+      (ALTCHA). Dafür werden keine Cookies gesetzt und keine Daten an Dritte übertragen. Pro Adresse
+      nehmen wir höchstens fünf Meldungen pro Stunde an; die IP-Adresse wird dafür nur im
+      Arbeitsspeicher des Servers gezählt und nicht gespeichert.
+    </p>
+    <h2>8. Konto löschen</h2>
     <p>
       Über das Menü mit Ihren Initialen können Sie Ihr Konto jederzeit löschen. Dabei löschen wir
       sofort Ihr Konto, alle Ihre Rezepte und ihre Fotos. Geteilte Links funktionieren danach nicht
       mehr, und jede bestehende Anmeldung endet.
     </p>
-    <h2>8. Kein Tracking</h2>
+    <h2>9. Kein Tracking</h2>
     <p>
       Wir verwenden keine Analyse- oder Marketingwerkzeuge. Schriften und Symbole werden von unserem
       eigenen Server ausgeliefert. Verbindungen zu Google oder Bluesky entstehen nur, wenn Sie sich
       darüber anmelden.
     </p>
-    <h2>9. Links zu anderen Websites</h2>
+    <h2>10. Links zu anderen Websites</h2>
     <p>
       Links zu den Datenquellen, zu Creative Commons oder zu GitHub sind einfache Verweise. Erst
       wenn Sie einen Link anklicken, werden Daten an den jeweiligen Anbieter übertragen. Dort gelten
       dessen Datenschutzbestimmungen.
     </p>
-    <h2>10. Ihre Rechte</h2>
+    <h2>11. Ihre Rechte</h2>
     <p>
       Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17),
       Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen
