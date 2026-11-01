@@ -4,6 +4,7 @@ import { de, en } from "@nuxt/ui/locale";
 const { locale, localeProperties, t } = useI18n();
 
 const origin = useRequestURL().origin;
+const route = useRoute();
 
 useHead({
   htmlAttrs: { lang: () => localeProperties.value.language },
@@ -18,12 +19,17 @@ useHead({
 });
 // The preview when a link is shared; a shared recipe puts its own title over it.
 useSeoMeta({
+  description: () => t("app.description"),
+  ogType: "website",
   ogSiteName: () => t("app.name"),
   ogTitle: () => t("app.name"),
-  ogDescription: () => t("app.tagline"),
+  ogDescription: () => t("app.description"),
+  ogUrl: () => `${origin}${route.path}`,
+  ogLocale: () => (localeProperties.value.language ?? "de-DE").replace("-", "_"),
   ogImage: `${origin}/og.png`,
   ogImageWidth: 1200,
   ogImageHeight: 630,
+  ogImageAlt: () => t("app.imageAlt"),
   twitterCard: "summary_large_image",
 });
 </script>

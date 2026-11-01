@@ -1,7 +1,9 @@
 {
   "app": {
     "name": "Nutrition Kitchen",
-    "tagline": "Enter a recipe, read its nutrition facts."
+    "tagline": "Enter a recipe, read its nutrition facts.",
+    "description": "Build a recipe from over 7,000 foods and read, print or share its nutrition table under EU law. Free and without tracking.",
+    "imageAlt": "A nutrition label headed Nutrition Kitchen"
   },
   "language": {
     "label": "Language"

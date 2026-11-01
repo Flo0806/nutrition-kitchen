@@ -1,7 +1,9 @@
 {
   "app": {
     "name": "Nutrition Kitchen",
-    "tagline": "Rezept eingeben, Nährwerte ablesen."
+    "tagline": "Rezept eingeben, Nährwerte ablesen.",
+    "description": "Ein Rezept aus über 7.000 Lebensmitteln zusammenstellen und die Nährwerttabelle nach EU-Recht ablesen, drucken oder teilen. Frei und ohne Tracking.",
+    "imageAlt": "Ein Nährwert-Etikett mit der Überschrift Nutrition Kitchen"
   },
   "language": {
     "label": "Sprache"
